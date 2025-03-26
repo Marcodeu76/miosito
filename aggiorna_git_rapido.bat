@@ -11,5 +11,5 @@ echo Invio al repository GitHub...
 git push origin master
 
 echo.
-echo ✅ Aggiornamento completato con successo!
+echo Aggiornamento completato con successo!
 pause
