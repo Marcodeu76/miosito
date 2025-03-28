@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestione Investimenti</title>
+    <link rel="stylesheet" href="stile.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        #totaleInvestito {
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
+        }
+        nav {
+            background-color: #007bff;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="entrate-uscite.html">Entrate/Uscite</a>
+        <a href="cashflow.html">Cash Flow</a>
+        <a href="investimenti.html">Investimenti</a>
+        <a href="index.html">Home</a>
+    </nav>
+
+    <h1>Gestione Investimenti</h1>
+
+    <form id="investForm">
+        <label>Data: <input type="date" id="data" required></label>
+        <label>Nome Investimento: <input type="text" id="nome" required></label>
+        <label>Importo (&euro;): <input type="number" id="importo" required></label>
+        <label>Tipo:
+            <select id="tipo">
+                <option value="Azione">Azione</option>
+                <option value="ETF">ETF</option>
+                <option value="Crypto">Crypto</option>
+                <option value="Altro">Altro</option>
+            </select>
+        </label>
+        <button type="submit">Aggiungi</button>
+    </form>
+
+    <table id="tabellaInvest">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Nome</th>
+                <th>Importo</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <p id="totaleInvestito">Totale Investito: 0.00 €</p>
+
+    <script>
+        const form = document.getElementById('investForm');
+        const tabella = document.querySelector('#tabellaInvest tbody');
+        const totaleInvestito = document.getElementById('totaleInvestito');
+
+        let investimenti = JSON.parse(localStorage.getItem('investimenti')) || [];
+        aggiornaTabella();
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const data = document.getElementById('data').value;
+            const nome = document.getElementById('nome').value;
+            const importo = parseFloat(document.getElementById('importo').value);
+            const tipo = document.getElementById('tipo').value;
+
+            investimenti.push({ data, nome, importo, tipo });
+            localStorage.setItem('investimenti', JSON.stringify(investimenti));
+            form.reset();
+            aggiornaTabella();
+        });
+
+        function aggiornaTabella() {
+            tabella.innerHTML = '';
+            let totale = 0;
+
+            investimenti.forEach(inv => {
+                const riga = document.createElement('tr');
+                riga.innerHTML = `
+                    <td>${inv.data}</td>
+                    <td>${inv.nome}</td>
+                    <td>${inv.importo.toFixed(2)} &euro;</td>
+                    <td>${inv.tipo}</td>
+                `;
+                tabella.appendChild(riga);
+                totale += inv.importo;
+            });
+
+            totaleInvestito.textContent = `Totale Investito: ${totale.toFixed(2)} €`;
+        }
+    </script>
+</body>
+</html>

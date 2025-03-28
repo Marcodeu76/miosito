@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Cash Flow Mensile</title>
+    <link rel="stylesheet" href="stile.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        #saldoTotale {
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
+        }
+        nav {
+            background-color: #007bff;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="entrate-uscite.html">Entrate/Uscite</a>
+        <a href="cashflow.html">Cash Flow</a>
+        <a href="investimenti.html">Investimenti</a>
+        <a href="index.html">Home</a>
+    </nav>
+
+    <h1>Cash Flow Mensile</h1>
+
+    <p>I dati in questa pagina sono generati automaticamente dai movimenti inseriti nella sezione <strong>Entrate e Uscite</strong>.</p>
+
+    <table id="tabellaCash">
+        <thead>
+            <tr>
+                <th>Mese</th>
+                <th>Entrate</th>
+                <th>Uscite</th>
+                <th>Saldo</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <p id="saldoTotale">Saldo Totale: 0.00 €</p>
+
+    <script>
+        const tabella = document.querySelector('#tabellaCash tbody');
+        const saldoTotale = document.getElementById('saldoTotale');
+
+        const movimenti = JSON.parse(localStorage.getItem('movimenti')) || [];
+        const cashFlowAggregato = {};
+
+        movimenti.forEach(mov => {
+            const mese = mov.data.slice(0, 7); // yyyy-mm
+            if (!cashFlowAggregato[mese]) {
+                cashFlowAggregato[mese] = { entrate: 0, uscite: 0 };
+            }
+            if (mov.tipo === 'Entrata') {
+                cashFlowAggregato[mese].entrate += mov.importo;
+            } else {
+                cashFlowAggregato[mese].uscite += mov.importo;
+            }
+        });
+
+        let saldoFinale = 0;
+
+        Object.entries(cashFlowAggregato).sort().forEach(([mese, dati]) => {
+            const saldo = dati.entrate - dati.uscite;
+            saldoFinale += saldo;
+
+            const riga = document.createElement('tr');
+            riga.innerHTML = `
+                <td>${mese}</td>
+                <td>${dati.entrate.toFixed(2)} &euro;</td>
+                <td>${dati.uscite.toFixed(2)} &euro;</td>
+                <td>${saldo.toFixed(2)} &euro;</td>
+            `;
+            tabella.appendChild(riga);
+        });
+
+        saldoTotale.textContent = `Saldo Totale: ${saldoFinale.toFixed(2)} €`;
+    </script>
+</body>
+</html>

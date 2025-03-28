@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestione Entrate e Uscite</title>
+    <link rel="stylesheet" href="stile.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        #totale {
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .filtro-section {
+            margin-top: 30px;
+        }
+
+        nav {
+            background-color: #007bff;
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="entrate-uscite.html">Entrate/Uscite</a>
+        <a href="cashflow.html">Cash Flow</a>
+        <a href="investimenti.html">Investimenti</a>
+        <a href="index.html">Home</a>
+    </nav>
+
+    <h1>Gestione Entrate e Uscite</h1>
+
+    <form id="budgetForm">
+        <label>Data: <input type="date" id="data" required></label>
+        <label>Categoria/Descrizione: <input type="text" id="categoria" required></label>
+        <label>Importo (&euro;): <input type="number" id="importo" required></label>
+        <label>Tipo:
+            <select id="tipo">
+                <option value="Entrata">Entrata</option>
+                <option value="Uscita">Uscita</option>
+            </select>
+        </label>
+        <button type="submit">Aggiungi</button>
+    </form>
+
+    <div class="filtro-section">
+        <label>Filtra per mese:
+            <input type="month" id="filtroMese">
+        </label>
+        <label>Filtra per categoria/descrizione:
+            <input type="text" id="filtroCategoria" placeholder="Categoria o descrizione">
+        </label>
+        <button onclick="filtraPerMeseCategoria()">Applica filtro</button>
+    </div>
+
+    <table id="tabellaBudget">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Categoria/Descrizione</th>
+                <th>Importo</th>
+                <th>Tipo</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Righe aggiunte dinamicamente -->
+        </tbody>
+    </table>
+
+    <p id="totale">Totale: 0.00 €</p>
+
+    <div class="home-button">
+        <a href="index.html">🏠 Torna alla Home</a>
+    </div>
+
+    <script>
+        const form = document.getElementById('budgetForm');
+        const tabella = document.querySelector('#tabellaBudget tbody');
+        const totaleDisplay = document.getElementById('totale');
+        const filtroMese = document.getElementById('filtroMese');
+        const filtroCategoria = document.getElementById('filtroCategoria');
+
+        let movimenti = JSON.parse(localStorage.getItem('movimenti')) || [];
+        aggiornaTabella();
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const data = document.getElementById('data').value;
+            const categoria = document.getElementById('categoria').value;
+            const importo = parseFloat(document.getElementById('importo').value);
+            const tipo = document.getElementById('tipo').value;
+
+            movimenti.push({ data, categoria, importo, tipo });
+            localStorage.setItem('movimenti', JSON.stringify(movimenti));
+            form.reset();
+            aggiornaTabella();
+        });
+
+        function aggiornaTabella() {
+            const filtro = filtroMese.value;
+            const filtroCat = filtroCategoria.value.toLowerCase();
+            tabella.innerHTML = '';
+            let totale = 0;
+
+            movimenti.forEach(mov => {
+                const meseMovimento = mov.data.slice(0, 7);
+                const catMatch = mov.categoria.toLowerCase().includes(filtroCat);
+
+                if ((!filtro || filtro === meseMovimento) && (!filtroCat || catMatch)) {
+                    const riga = document.createElement('tr');
+                    riga.innerHTML = `
+                        <td>${mov.data}</td>
+                        <td>${mov.categoria}</td>
+                        <td>${mov.importo.toFixed(2)} &euro;</td>
+                        <td>${mov.tipo}</td>
+                    `;
+                    tabella.appendChild(riga);
+
+                    totale += mov.tipo === 'Entrata' ? mov.importo : -mov.importo;
+                }
+            });
+
+            totaleDisplay.textContent = `Totale: ${totale.toFixed(2)} €`;
+        }
+
+        function filtraPerMeseCategoria() {
+            aggiornaTabella();
+        }
+    </script>
+</body>
+</html>

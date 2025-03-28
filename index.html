@@ -1,21 +1,84 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mio sito privato</title>
-    <link rel="stylesheet" href="stile.css">
+  <meta charset="UTF-8">
+  <title>Home - Mio sito privato</title>
+  <link rel="stylesheet" href="stile.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    h1 {
+      color: #007bff;
+    }
+    nav {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #007bff;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .sezioni {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+    .box {
+      border: 1px solid #007bff;
+      border-radius: 8px;
+      padding: 1rem;
+      background: #f0f8ff;
+      text-align: center;
+    }
+    .box a {
+      text-decoration: none;
+      font-weight: bold;
+      color: #007bff;
+      font-size: 1.1rem;
+    }
+    .box a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-    <h1>Benvenuto nel tuo sito privato</h1>
+  <header>
+    <h1>📘 Mio Sistema Finanziario</h1>
+    <p>Pianifica e gestisci facilmente entrate, investimenti e obiettivi economici</p>
+  </header>
 
-    <nav>
-        <a href="finanziaria.html">Intelligenza finanziaria</a>
-        <a href="dieta.html">Dieta</a>
-        <a href="task.html">Task Prioritaria</a>
-        <a href="forza.html">Forza Interiore</a>
-        <a href="Preposto.html">Professione Preposto</a>
-    </nav>
+  <nav>
+    <a href="finanziaria.html">Intelligenza finanziaria</a>
+    <a href="dieta.html">Dieta</a>
+    <a href="task.html">Task Prioritaria</a>
+    <a href="forza.html">Forza Interiore</a>
+    <a href="Preposto.html">Professione Preposto</a>
+  </nav>
 
+  <section class="sezioni">
+    <div class="box">
+      <a href="entrate-uscite.html">📊 Registro Entrate e Uscite</a>
+    </div>
+    <div class="box">
+      <a href="cashflow.html">📈 Cash Flow Mensile</a>
+    </div>
+    <div class="box">
+      <a href="investimenti.html">💼 Gestione Investimenti</a>
+    </div>
+    <div class="box">
+      <a href="finanziaria.html">📚 Approfondimenti Finanziari</a>
+    </div>
+  </section>
 </body>
 </html>
