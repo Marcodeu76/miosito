@@ -2,62 +2,83 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestione Entrate e Uscite</title>
     <link rel="stylesheet" href="stile.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 1rem;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
-
         th, td {
             border: 1px solid #ccc;
             padding: 10px;
             text-align: left;
+            font-size: 0.95rem;
         }
-
         th {
             background-color: #007bff;
             color: white;
         }
-
         #totale {
             font-weight: bold;
             margin-top: 20px;
             text-align: right;
         }
-
-        .filtro-section {
-            margin-top: 30px;
+        form, .filtro-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
         }
-
-        nav {
-            background-color: #007bff;
-            padding: 10px;
-            text-align: center;
-            margin-bottom: 30px;
+        label {
+            flex: 1 1 200px;
         }
-
-        nav a {
-            color: white;
-            margin: 0 15px;
-            text-decoration: none;
-            font-weight: bold;
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            font-size: 1rem;
         }
-
-        nav a:hover {
-            text-decoration: underline;
+        @media (max-width: 600px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                display: none;
+            }
+            td {
+                border: none;
+                border-bottom: 1px solid #ddd;
+                position: relative;
+                padding-left: 50%;
+            }
+            td::before {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                width: 45%;
+                white-space: nowrap;
+                font-weight: bold;
+                color: #007bff;
+            }
+            td:nth-of-type(1)::before { content: "Data"; }
+            td:nth-of-type(2)::before { content: "Categoria"; }
+            td:nth-of-type(3)::before { content: "Importo"; }
+            td:nth-of-type(4)::before { content: "Tipo"; }
         }
     </style>
 </head>
 <body>
     <nav>
-        <a href="entrate-uscite.html">Entrate/Uscite</a>
+        <a href="index.html">🏠 Home</a>
         <a href="cashflow.html">Cash Flow</a>
         <a href="investimenti.html">Investimenti</a>
-        <a href="index.html">Home</a>
     </nav>
 
     <h1>Gestione Entrate e Uscite</h1>
@@ -65,7 +86,7 @@
     <form id="budgetForm">
         <label>Data: <input type="date" id="data" required></label>
         <label>Categoria/Descrizione: <input type="text" id="categoria" required></label>
-        <label>Importo (&euro;): <input type="number" id="importo" required></label>
+        <label>Importo (€): <input type="number" id="importo" required></label>
         <label>Tipo:
             <select id="tipo">
                 <option value="Entrata">Entrata</option>
@@ -94,16 +115,10 @@
                 <th>Tipo</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- Righe aggiunte dinamicamente -->
-        </tbody>
+        <tbody></tbody>
     </table>
 
     <p id="totale">Totale: 0.00 €</p>
-
-    <div class="home-button">
-        <a href="index.html">🏠 Torna alla Home</a>
-    </div>
 
     <script>
         const form = document.getElementById('budgetForm');
