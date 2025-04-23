@@ -1,16 +1,220 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dieta</title>
-    <link rel="stylesheet" href="stile.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dieta</title>
+  <link rel="stylesheet" href="stile.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    @media (max-width: 768px) {
+      input, select, textarea, button {
+        width: 100% !important;
+        font-size: 1rem;
+      }
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      th, td {
+        padding: 10px;
+        text-align: right;
+        border: none;
+      }
+      th::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+      }
+    }
+    .dark-mode {
+      background-color: #222;
+      color: #f1f1f1;
+    }
+    .dark-mode nav {
+      background-color: #111;
+    }
+    .dark-mode .box, .dark-mode li {
+      background-color: #333;
+      color: #f1f1f1;
+    }
+  </style>
 </head>
-<div class="home-button">
+<body>
+  <div class="home-button">
     <a href="index.html">🏠 Torna alla Home</a>
   </div>  
-<body>
-    <h1>Dieta</h1>
-    <p>Sarebbe bello avere tanto Scrivi qui i tuoi contenuti sulla dieta.</p> 
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#inserimento">Inserisci Pasto</a>
+    <a href="#menu">Menu Settimanale</a>
+    <a href="#grafici">Grafici</a>
+    <a href="#" onclick="toggleDarkMode()">🌓 Tema</a>
+  </nav>
+
+  <header>
+    <h1>Gestione Dieta</h1>
+  </header>
+
+  <section class="section" id="inserimento">
+    <h2>Inserisci Pasto</h2>
+    <label>Data: <input type="date" id="date"></label><br>
+    <label>Tipo Pasto: 
+      <select id="mealType">
+        <option>Colazione</option>
+        <option>Pranzo</option>
+        <option>Cena</option>
+        <option>Spuntino</option>
+      </select>
+    </label><br>
+    <label>Descrizione: <input type="text" id="description"></label><br>
+    <label>Calorie: <input type="number" id="calories"></label><br>
+    <label>Carboidrati: <input type="number" id="carbs"></label><br>
+    <label>Proteine: <input type="number" id="protein"></label><br>
+    <label>Grassi: <input type="number" id="fat"></label><br>
+    <button onclick="addMeal()">Aggiungi Pasto</button>
+  </section>
+
+  <section class="section">
+    <h2>Pasti Registrati</h2>
+    <table id="mealsTable">
+      <thead>
+        <tr><th>Data</th><th>Tipo</th><th>Descrizione</th><th>Calorie</th><th>Carboidrati</th><th>Proteine</th><th>Grassi</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </section>
+
+  <section class="section">
+    <h2>Note Giornaliere</h2>
+    <textarea id="dailyNotes" rows="4" placeholder="Scrivi qui le tue note..." onchange="saveNotes()"></textarea>
+  </section>
+
+  <section class="section">
+    <h2>Salvataggio e Esportazione</h2>
+    <button onclick="exportData()">Esporta JSON</button>
+    <input type="file" id="importFile" onchange="importData(event)" />
+  </section>
+
+  <section class="section" id="menu">
+    <h2>Menu Settimanale (suggerito)</h2>
+    <ul id="weeklyMenu"></ul>
+  </section>
+
+  <section class="section" id="grafici">
+    <h2>Analisi Visiva</h2>
+    <canvas id="macroChart" width="400" height="200"></canvas>
+  </section>
+
+  <script>
+    const meals = JSON.parse(localStorage.getItem('meals') || '[]');
+    const notes = localStorage.getItem('notes') || '';
+    document.getElementById('dailyNotes').value = notes;
+
+    function saveMeals() {
+      localStorage.setItem('meals', JSON.stringify(meals));
+      renderTable();
+      renderChart();
+    }
+
+    function saveNotes() {
+      localStorage.setItem('notes', document.getElementById('dailyNotes').value);
+    }
+
+    function addMeal() {
+      const meal = {
+        date: document.getElementById('date').value,
+        type: document.getElementById('mealType').value,
+        description: document.getElementById('description').value,
+        calories: parseInt(document.getElementById('calories').value) || 0,
+        carbs: parseInt(document.getElementById('carbs').value) || 0,
+        protein: parseInt(document.getElementById('protein').value) || 0,
+        fat: parseInt(document.getElementById('fat').value) || 0,
+      };
+      meals.push(meal);
+      saveMeals();
+    }
+
+    function renderTable() {
+      const tbody = document.querySelector('#mealsTable tbody');
+      tbody.innerHTML = '';
+      meals.forEach(m => {
+        const row = `<tr><td>${m.date}</td><td>${m.type}</td><td>${m.description}</td><td>${m.calories}</td><td>${m.carbs}</td><td>${m.protein}</td><td>${m.fat}</td></tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    function exportData() {
+      const blob = new Blob([JSON.stringify({ meals, notes: document.getElementById('dailyNotes').value })], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'dieta_longo.json';
+      link.click();
+    }
+
+    function importData(event) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const data = JSON.parse(reader.result);
+        localStorage.setItem('meals', JSON.stringify(data.meals || []));
+        localStorage.setItem('notes', data.notes || '');
+        location.reload();
+      };
+      reader.readAsText(event.target.files[0]);
+    }
+
+    function suggestMenu() {
+      const menu = [
+        'Lunedì: Porridge con frutta + zuppa di legumi + verdure al vapore',
+        'Martedì: Frutta secca + quinoa con verdure + insalata mista',
+        'Mercoledì: Tisana + riso integrale + verdure stufate',
+        'Giovedì: Tofu alla piastra + patate + cavolo',
+        'Venerdì: Minestrone + hummus + carote crude',
+        'Sabato: Smoothie vegetale + cereali integrali + broccoli',
+        'Domenica: Frutta + vellutata di verdure + pane integrale'
+      ];
+      const list = document.getElementById('weeklyMenu');
+      list.innerHTML = '';
+      menu.forEach(m => {
+        const li = document.createElement('li');
+        li.textContent = m;
+        list.appendChild(li);
+      });
+    }
+
+    function renderChart() {
+      const totals = meals.reduce((acc, m) => {
+        acc.carbs += m.carbs;
+        acc.protein += m.protein;
+        acc.fat += m.fat;
+        return acc;
+      }, {carbs: 0, protein: 0, fat: 0});
+
+      const ctx = document.getElementById('macroChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Carboidrati', 'Proteine', 'Grassi'],
+          datasets: [{
+            label: 'Totali settimana',
+            data: [totals.carbs, totals.protein, totals.fat],
+            backgroundColor: ['#007bff', '#28a745', '#ffc107']
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    renderTable();
+    suggestMenu();
+    renderChart();
+  </script>
 </body>
 </html>
