@@ -1,3 +1,4 @@
+<!-- FILE: forza.html (Indice / Overview) -->
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -6,120 +7,33 @@
   <title>La Forza Dentro — Manuale</title>
   <link rel="stylesheet" href="stile.css" />
   <style>
-    /* --- Layout a capitoli con menu laterale --- */
-    :root {
-      --bg: #f8f9fa;
-      --fg: #343a40;
-      --primary: #007bff;
-      --primary-dark: #0056b3;
-      --card: #ffffff;
-      --muted: #6c757d;
-    }
-
+    :root { --bg:#f8f9fa; --fg:#343a40; --primary:#007bff; --primary-dark:#0056b3; --card:#ffffff; --muted:#6c757d; }
     body { background: var(--bg); color: var(--fg); }
-
-    .wrapper {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 28px;
-      max-width: 1200px;
-      margin: 20px auto 80px;
-      padding: 0 16px;
-    }
-
-    /* Sidebar capitoli */
-    .sidebar {
-      position: sticky;
-      top: 16px;
-      align-self: start;
-      background: var(--card);
-      border-radius: 12px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-      padding: 18px 16px;
-    }
-    .sidebar h2 {
-      margin: 6px 0 10px;
-      font-size: 1.05rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .06em;
-    }
-    .toc {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .toc li { margin: 8px 0; }
-    .toc a {
-      display: block;
-      text-decoration: none;
-      color: var(--fg);
-      padding: 8px 10px;
-      border-radius: 8px;
-      transition: background .2s ease, color .2s ease;
-      font-weight: 600;
-    }
-    .toc a:hover { background: #eef5ff; color: var(--primary-dark); }
-
-    /* Contenuto principale */
-    .content {
-      background: var(--card);
-      border-radius: 12px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
-      padding: 26px;
-    }
-
-    .lead {
-      font-size: 1.1rem;
-      color: #2c3e50;
-      line-height: 1.8;
-    }
-
-    .chapter { margin: 34px 0 20px; }
-    .chapter h2 { color: var(--primary-dark); margin-bottom: 8px; }
-    .chapter h3 { color: #333; margin: 18px 0 6px; }
-
-    .note {
-      background: #eef5ff;
-      border-left: 4px solid var(--primary);
-      padding: 14px 16px;
-      border-radius: 8px;
-      margin: 18px 0;
-      color: #1f2d3d;
-    }
-
-    .values {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 12px;
-      margin: 14px 0 6px;
-    }
-    .pill {
-      background: #f4f6f9;
-      border: 1px solid #e4e7eb;
-      border-radius: 12px;
-      padding: 12px;
-      font-weight: 600;
-    }
-
-    .home-button { margin: 16px 0 22px; text-align: center; }
-
-    /* Top nav del sito: già definito in stile.css, qui solo responsività */
-    nav a { white-space: nowrap; }
-
-    /* Miglior leggibilità liste */
-    ol, ul { max-width: 100%; }
-
-    @media (max-width: 920px) {
-      .wrapper { grid-template-columns: 1fr; }
-      .sidebar { position: relative; top: 0; }
-    }
+    .wrapper { display:grid; grid-template-columns:280px 1fr; gap:28px; max-width:1200px; margin:20px auto 80px; padding:0 16px; }
+    .sidebar { position:sticky; top:16px; align-self:start; background:var(--card); border-radius:12px; box-shadow:0 6px 14px rgba(0,0,0,0.08); padding:18px 16px; }
+    .sidebar h2 { margin:6px 0 10px; font-size:1.05rem; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; }
+    .toc { list-style:none; margin:0; padding:0; }
+    .toc li { margin:8px 0; }
+    .toc a { display:block; text-decoration:none; color:var(--fg); padding:8px 10px; border-radius:8px; transition:background .2s ease, color .2s ease; font-weight:600; }
+    .toc a:hover { background:#eef5ff; color:#0056b3; }
+    .content { background:var(--card); border-radius:12px; box-shadow:0 6px 14px rgba(0,0,0,0.08); padding:26px; }
+    .lead { font-size:1.1rem; color:#2c3e50; line-height:1.8; }
+    .chapter { margin:34px 0 20px; }
+    .chapter h2 { color:#0056b3; margin-bottom:8px; }
+    .chapter h3 { color:#333; margin:18px 0 6px; }
+    .note { background:#eef5ff; border-left:4px solid var(--primary); padding:14px 16px; border-radius:8px; margin:18px 0; color:#1f2d3d; }
+    .values { display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin:14px 0 6px; }
+    .pill { background:#f4f6f9; border:1px solid #e4e7eb; border-radius:12px; padding:12px; font-weight:600; }
+    .home-button { margin:16px 0 22px; text-align:center; }
+    nav a { white-space:nowrap; }
+    ol, ul { max-width:100%; }
+    .chapter .cta a { display:inline-block; margin-top:8px; text-decoration:none; color:#fff; background:#007bff; padding:8px 12px; border-radius:8px; }
+    .chapter .cta a:hover { background:#0056b3; }
+    @media (max-width:920px) { .wrapper { grid-template-columns:1fr; } .sidebar { position:relative; top:0; } }
   </style>
 </head>
 <body>
   <h1 style="text-align:center; color:#007bff; margin-top: 18px;">La Forza Dentro — Manuale pratico</h1>
-
-  <!-- Navigazione generale del sito -->
   <nav style="margin:12px auto 18px; text-align:center;">
     <a href="index.html">🏠 Home</a>
     <a href="finanziaria.html">Finanza</a>
@@ -129,192 +43,50 @@
   </nav>
 
   <div class="wrapper">
-    <!-- Menu laterale a capitoli -->
     <aside class="sidebar" aria-label="Indice dei capitoli">
       <h2>Indice</h2>
       <ul class="toc">
-        <li><a href="#intro">Introduzione</a></li>
-        <li><a href="#fondamenti">Fondamenti della forza interiore</a></li>
-        <li><a href="#corpo-mente">Il corpo come pilastro della mente</a></li>
-        <li><a href="#emozioni">Emozioni come maestre</a></li>
-        <li><a href="#valori">Valori e virtù</a></li>
-        <li><a href="#sviluppo">Come sviluppare la forza interiore</a></li>
-        <li><a href="#relazioni">Relazioni e autenticità</a></li>
-        <li><a href="#crisi">Crisi e rinascita</a></li>
-        <li><a href="#strumenti">Strumenti di crescita</a></li>
-        <li><a href="#conclusione">Conclusione</a></li>
+        <li><a href="forza-introduzione.html">1. Introduzione</a></li>
+        <li><a href="forza-fondamenti.html">2. Fondamenti della forza interiore</a></li>
+        <li><a href="forza-corpo-mente.html">3. Il corpo come pilastro della mente</a></li>
+        <li><a href="forza-emozioni.html">4. Emozioni come maestre</a></li>
+        <li><a href="forza-valori.html">5. Valori e virtù</a></li>
+        <li><a href="forza-sviluppo.html">6. Come sviluppare la forza interiore</a></li>
+        <li><a href="forza-relazioni.html">7. Relazioni e autenticità</a></li>
+        <li><a href="forza-crisi.html">8. Crisi e rinascita</a></li>
+        <li><a href="forza-strumenti.html">9. Strumenti di crescita</a></li>
+        <li><a href="forza-conclusione.html">10. Conclusione</a></li>
       </ul>
     </aside>
 
-    <!-- Contenuto principale del "libro" -->
     <main class="content">
-      <section id="intro" class="chapter">
-        <h2>1. Introduzione</h2>
-        <p class="lead">
-          La forza interiore non è durezza, non è negare le emozioni, né è semplice resistenza. È l'insieme di consapevolezza, valori, 
-          disciplina e coraggio che ci consente di vivere in modo intenzionale, restare saldi nelle tempeste e gentili quando potremmo essere duri.
-        </p>
-        <div class="note"><strong>Idea chiave:</strong> La forza interiore si costruisce. Non è un talento: è una pratica quotidiana.</div>
-        <p>
-          In una società che premia la velocità e la reazione, la forza interiore insegna lentezza, presenza e risposta consapevole. In questo manuale troverai 
-          una mappa per coltivarla, con capitoli tematici e suggerimenti pratici.
-        </p>
+      <section class="chapter">
+        <h2>Benvenuto nel manuale</h2>
+        <p class="lead">Questa pagina è l'overview del progetto. Ogni capitolo ha una pagina dedicata con approfondimenti, esempi e riferimenti.</p>
+        <div class="note"><strong>Tip:</strong> Usa l'indice a sinistra per navigare e i pulsanti in fondo a ogni capitolo per andare al successivo.</div>
       </section>
 
-      <section id="fondamenti" class="chapter">
-        <h2>2. I fondamenti della forza interiore</h2>
-        <h3>Consapevolezza di sé</h3>
-        <p>Conoscere i propri valori, talenti, limiti e paure. Senza questa base, ogni scelta rischia di essere reattiva.</p>
-        <h3>Autodisciplina</h3>
-        <p>Fare ciò che serve anche quando manca la motivazione. La disciplina è libertà: libera dal capriccio del momento.</p>
-        <h3>Coraggio morale</h3>
-        <p>Scegliere ciò che è giusto, non ciò che è comodo. Significa difendere i propri principi e chi non ha voce.</p>
-        <h3>Resilienza</h3>
-        <p>Cadere, analizzare, imparare, rialzarsi. Ogni caduta è una lezione se ci prendi appunti.</p>
-      </section>
-
-      <section id="corpo-mente" class="chapter">
-        <h2>3. Il corpo come pilastro della mente</h2>
-        <p>
-          Mente e corpo sono un sistema unico: energia fisica, sonno, nutrizione e movimento influenzano concentrazione, umore e lucidità. 
-          La cura del corpo è un atto di intelligenza mentale.
-        </p>
-        <ul>
-          <li><strong>Sonno:</strong> priorità non negoziabile per memoria, umore e autocontrollo.</li>
-          <li><strong>Alimentazione:</strong> equilibrio e qualità prima della quantità.</li>
-          <li><strong>Movimento:</strong> allenamenti regolari (corsa, forza, mobilità) per resilienza e gestione dello stress.</li>
-          <li><strong>Respirazione:</strong> tecniche semplici (respiri lenti e profondi) per regolare le emozioni.</li>
-        </ul>
-      </section>
-
-      <section id="emozioni" class="chapter">
-        <h2>4. Le emozioni come maestre</h2>
-        <p>
-          Le emozioni non sono nemiche da reprimere, ma segnali da comprendere. La forza interiore non è "non sentire": è saper stare 
-          nelle emozioni senza esserne travolti.
-        </p>
-        <ul>
-          <li><strong>Osserva, poi rispondi:</strong> tra stimolo e risposta c'è uno spazio; lì vive la libertà.</li>
-          <li><strong>Riformula:</strong> chiediti che cosa l'emozione sta proteggendo o indicando.</li>
-          <li><strong>Calma operativa:</strong> respira, radicati nel corpo, scegli la prossima azione minima utile.</li>
-        </ul>
-      </section>
-
-      <section id="valori" class="chapter">
-        <h2>5. Valori e virtù</h2>
-        <p>
-          I valori guidano le scelte quando l'emotività confonde. Qui integriamo e valorizziamo l'elenco già presente nel tuo testo originale.
-        </p>
+      <section class="chapter">
+        <h2>Valori fondamentali (dal testo originale)</h2>
         <div class="values">
-          <div class="pill">Integrità — coerenza tra parole e azioni</div>
-          <div class="pill">Responsabilità — conseguenze delle proprie azioni</div>
-          <div class="pill">Rispetto — dignità per ogni persona</div>
-          <div class="pill">Coraggio — difendere ciò in cui si crede</div>
-          <div class="pill">Disciplina — costanza e impegno</div>
-          <div class="pill">Umiltà — ascolto e limiti</div>
-          <div class="pill">Empatia — comprendere l'altro</div>
-          <div class="pill">Giustizia — equità e correttezza</div>
-          <div class="pill">Perseveranza — non arrendersi</div>
-          <div class="pill">Generosità — dare senza attendere ritorno</div>
+          <div class="pill">Integrità</div>
+          <div class="pill">Responsabilità</div>
+          <div class="pill">Rispetto</div>
+          <div class="pill">Coraggio</div>
+          <div class="pill">Disciplina</div>
+          <div class="pill">Umiltà</div>
+          <div class="pill">Empatia</div>
+          <div class="pill">Giustizia</div>
+          <div class="pill">Perseveranza</div>
+          <div class="pill">Generosità</div>
         </div>
-        <div class="note"><strong>Dal testo originale:</strong> questi valori erano già presenti; qui sono stati mantenuti e resi più leggibili in forma di "pillole" tematiche.</div>
+        <p>Trovi l'approfondimento in <a href="forza-valori.html">Valori e virtù</a>.</p>
       </section>
 
-      <section id="sviluppo" class="chapter">
-        <h2>6. Come sviluppare la forza interiore</h2>
-        <p>Sezione ricostruita e ampliata integrando i punti del tuo file originale.</p>
-        <ol>
-          <li><strong>Conoscere sé stessi</strong>
-            <ul>
-              <li>Rifletti su valori, punti di forza e debolezze.</li>
-              <li>Poniti domande: Cosa è davvero importante per me?</li>
-              <li>Accetta chi sei senza compiacere gli altri.</li>
-            </ul>
-          </li>
-          <li><strong>Accettare le difficoltà come opportunità</strong>
-            <ul>
-              <li>Le sfide rafforzano il carattere.</li>
-              <li>Cambia prospettiva e affronta con determinazione.</li>
-            </ul>
-          </li>
-          <li><strong>Allenare disciplina e resilienza</strong>
-            <ul>
-              <li>Obiettivi chiari, piccoli passi, costanza.</li>
-              <li>Gestione dello stress e superamento della procrastinazione.</li>
-            </ul>
-          </li>
-          <li><strong>Controllo emotivo</strong>
-            <ul>
-              <li>Osserva le emozioni senza farti travolgere.</li>
-              <li>Rispondi, non reagire.</li>
-            </ul>
-          </li>
-          <li><strong>Indipendenza mentale</strong>
-            <ul>
-              <li>Prendi decisioni basate sui tuoi valori.</li>
-              <li>Sviluppa pensiero critico e autonomia.</li>
-            </ul>
-          </li>
-          <li><strong>Lealtà ai propri valori</strong>
-            <ul>
-              <li>Non sacrificare la tua integrità.</li>
-              <li>Circondati di persone che ti rispettano.</li>
-            </ul>
-          </li>
-          <li><strong>Curare corpo e mente</strong>
-            <ul>
-              <li>Sport, alimentazione sana, sonno e hobby.</li>
-              <li>Equilibrio fisico e mentale.</li>
-            </ul>
-          </li>
-          <li><strong>Accettare il fallimento</strong>
-            <ul>
-              <li>Ogni errore è una lezione.</li>
-              <li>Analizza, impara e non perdere fiducia.</li>
-            </ul>
-          </li>
-        </ol>
-      </section>
-
-      <section id="relazioni" class="chapter">
-        <h2>7. Relazioni e autenticità</h2>
-        <p>
-          La forza interiore nelle relazioni significa mantenere i confini, saper dire "no" e restare aperti. L'autenticità non è dire tutto: 
-          è dire il vero con gentilezza.
-        </p>
-        <ul>
-          <li>Autenticità senza compiacenza.</li>
-          <li>Vulnerabilità come atto di coraggio.</li>
-          <li>La forza di lasciare andare ciò che non è sano.</li>
-        </ul>
-      </section>
-
-      <section id="crisi" class="chapter">
-        <h2>8. Crisi e rinascita</h2>
-        <p>
-          Le cadute sono terreno fertile per la crescita, se affrontate con onestà e speranza. Rinascere significa integrare la ferita, non negarla.
-        </p>
-        <ul>
-          <li>Dare un nome al dolore.</li>
-          <li>Cercare significato: cosa posso imparare?</li>
-          <li>Piccoli passi quotidiani, costanti e concreti.</li>
-          <li>Perdonare sé stessi e gli altri come scelta di libertà.</li>
-        </ul>
-      </section>
-
-      <section id="strumenti" class="chapter">
-        <h2>9. Strumenti di crescita</h2>
-        <ul>
-          <li><strong>Esercizi di riflessione:</strong> domande guida a fine giornata.</li>
-          <li><strong>Respirazione:</strong> 4-6 respiri lenti contati, due volte al giorno.</li>
-          <li><strong>Letture consigliate:</strong> classici di saggezza, filosofia pratica, psicologia.</li>
-          <li><strong>Frasi ispirazionali:</strong> scegli una frase-guida per la settimana.</li>
-        </ul>
-      </section>
-
-      <section id="conclusione" class="chapter">
-        <h2>10. Conclusione</h2>
-        <p><strong>Messaggio finale:</strong> La forza interiore si costruisce nel tempo. Ogni ostacolo superato ti rende più forte. Coltivala ogni giorno: equilibrio e consapevolezza seguiranno.</p>
+      <section class="chapter">
+        <h2>Come svilupparla (dal testo originale)</h2>
+        <p>Riepilogo dei passi principali: consapevolezza, accettazione delle difficoltà, disciplina, controllo emotivo, indipendenza mentale, lealtà ai valori, cura di corpo e mente, relazione sana con il fallimento.</p>
+        <p class="cta"><a href="forza-sviluppo.html">Apri il capitolo completo →</a></p>
       </section>
 
       <div class="home-button">
@@ -322,6 +94,5 @@
       </div>
     </main>
   </div>
-
 </body>
 </html>
