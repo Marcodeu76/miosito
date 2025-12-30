@@ -2,105 +2,473 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Preposto-Gestore Autotrasporti</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Area Preposto – Gestore dei Trasporti</title>
   <link rel="stylesheet" href="stile.css">
+  <style>
+    /* Estensioni leggere senza toccare stile.css */
+    .note { max-width: 800px; margin: 10px auto; background:#fff; padding:12px 14px; border-radius:6px; box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
+    .pill { display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid #007bff; color:#0056b3; background:#f0f8ff; margin:4px 6px 0 0; font-size:0.9rem; }
+    .actions { max-width:800px; margin: 10px auto 30px auto; display:flex; gap:10px; flex-wrap: wrap; justify-content:center; }
+    button {
+      border:1px solid #007bff; background:#007bff; color:#fff;
+      padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:bold;
+    }
+    button.secondary { background:#fff; color:#007bff; }
+    button:active { transform: translateY(1px); }
+
+    /* Registro controlli: layout moderno (desktop = griglia, mobile = card) */
+    .registro-wrap{
+      max-width: 900px;
+      margin: 0 auto;
+      background:#fff;
+      border-radius:10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      border:1px solid #cfe2ff;
+      overflow:hidden;
+    }
+    .registro-header{
+      display:grid;
+      grid-template-columns: 140px 180px 1.2fr 140px 1.6fr 96px;
+      gap:0;
+      padding:10px;
+      background:#f0f8ff;
+      color:#0056b3;
+      font-weight:bold;
+      border-bottom:1px solid #cfe2ff;
+    }
+    .registro-rows{
+      display:block;
+    }
+    .registro-row{
+      display:grid;
+      grid-template-columns: 140px 180px 1.2fr 140px 1.6fr 96px;
+      gap:0;
+      padding:10px;
+      border-bottom:1px solid #e6f0ff;
+      align-items:start;
+    }
+    .registro-row:nth-child(even){ background:#fbfdff; }
+    .registro-row:last-child{ border-bottom:none; }
+    .field{ padding:4px; }
+    .field[data-label]::before{
+      content: "";
+      display:none;
+    }
+    .cell-actions{ text-align:center; }
+
+    /* Badge esito (più leggibile) */
+    select.esito.ok{ border-color:#b7ebc6; background:#f2fbf5; }
+    select.esito.warn{ border-color:#ffd7a8; background:#fff7ed; }
+    select.esito.ko{ border-color:#ffb4b4; background:#fff1f1; }
+
+    @media (max-width: 920px){
+      .registro-header{ display:none; }
+      .registro-row{
+        grid-template-columns: 1fr;
+        padding:12px;
+      }
+      .field{ padding:6px 4px; }
+      .field[data-label]::before{
+        content: attr(data-label);
+        display:block;
+        font-size:0.82rem;
+        color:#2c3e50;
+        margin:0 0 6px 2px;
+        font-weight:bold;
+      }
+      .cell-actions{ text-align:left; }
+    }
+    .btn-mini{
+      border:1px solid #007bff;
+      background:#fff;
+      color:#007bff;
+      padding:6px 10px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:bold;
+      font-size:0.9rem;
+    }
+    input[type="text"], input[type="date"], select, textarea {
+      width:100%;
+      padding:8px;
+      border:1px solid #cfe2ff;
+      border-radius:6px;
+      box-sizing:border-box;
+      background:#fff;
+      font-size:0.95rem;
+    }
+    textarea { min-height: 70px; resize: vertical; line-height:1.35; }
+    .muted { color:#555; font-size:0.92rem; }
+    .ok { color:#1a7f37; font-weight:bold; }
+    .warn { color:#b54708; font-weight:bold; }
+
+    @media print {
+      nav, .home-button, .actions, .print-hide { display:none !important; }
+      body { margin: 10mm; background:#fff; }
+      li { box-shadow:none; }
+      .note { box-shadow:none; border:1px solid #ddd; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    
+      /* Stampa selettiva: mostra solo una sezione (checklist o ispezione) */
+      body[data-print] .section,
+      body[data-print] .note { display:none !important; }
+
+      body[data-print="checklist"] #checklist { display:block !important; }
+      body[data-print="ispezione"] #ispezione { display:block !important; }
+      body[data-print="registro"] #registro { display:block !important; }
+
+      /* ...e in stampa selettiva, mostra anche le note interne alla sezione scelta (es. tabella registro) */
+      body[data-print="checklist"] #checklist .note,
+      body[data-print="ispezione"] #ispezione .note,
+      body[data-print="registro"] #registro .note { display:block !important; }
+
+      /* Registro: stampa pulita (con intestazioni) */
+      .registro-wrap{ box-shadow:none; border-color:#ddd; }
+      .registro-header{ display:grid !important; }
+      .cell-actions{ display:none !important; }
+      textarea{ min-height: 50px; }
+
+      /* In stampa selettiva mantieni il titolo */
+      body[data-print] h1 { display:block !important; }
+
+    }
+  </style>
 </head>
-<div class="home-button">
-  <a href="index.html">🏠 Torna alla Home</a>
-</div>
+
 <body>
 
-  <h1>Preposto-Gestore Autotrasporti</h1>
+  <div class="home-button">
+    <a href="index.html">🏠 Torna alla Home</a>
+  </div>
+
+  <h1>Area Preposto – Gestore dei Trasporti</h1>
 
   <nav>
-    <a href="#requisiti">Requisiti</a>
-    <a href="#gestore">Gestore</a>
-    <a href="#dettagli">Requisiti Dettagliati</a>
-    <a href="#controlli">Controlli</a>
-    <a href="#cooperazione">Cooperazione</a>
-    <a href="#attestati">Attestati</a>
-    <a href="#materie">Materie Esame</a>
+    <a href="#normativa">Normativa</a>
+    <a href="#ruolo">Ruolo</a>
+    <a href="#checklist">Checklist</a>
+    <a href="#registro">Registro Controlli</a>
+    <a href="#ispezione">Ispezione</a>
   </nav>
 
-  <div class="section" id="requisiti">
-    <h2>1. Requisiti per l’accesso alla professione</h2>
+  <div class="note">
+    <span class="pill">Operatività</span>
+    <span class="pill">Conformità</span>
+    <span class="pill">Pronto-controllo</span>
+    <p class="muted">
+      Opinione: la miglior difesa, nei controlli, è poter dimostrare <strong>metodo</strong> e <strong>continuità</strong>.
+      Questa pagina ti aiuta a farlo in modo semplice.
+    </p>
+  </div>
+
+  <div class="section" id="normativa">
+    <h2>1. Normativa di riferimento</h2>
     <ul>
-      <li>Sede effettiva e stabile</li>
-      <li>Requisito di onorabilità</li>
-      <li>Idoneità finanziaria</li>
-      <li>Idoneità professionale</li>
+      <li><strong>Regolamento (CE) n. 1071/2009</strong> – Accesso alla professione di trasportatore su strada (requisiti e ruolo del gestore)</li>
+      <li>D.Lgs. 395/2000 e normativa nazionale di attuazione</li>
+      <li>Codice della Strada e disposizioni su pesi/dimensioni, dispositivi, documenti di bordo</li>
+      <li>Normativa sociale: tempi di guida e riposo, tachigrafo</li>
+      <li>Sicurezza sul lavoro e formazione (DVR, procedure, istruzioni)</li>
     </ul>
   </div>
 
-  <div class="section" id="gestore">
-    <h2>2. Il Gestore dei trasporti</h2>
+  <div class="section" id="ruolo">
+    <h2>2. Ruolo e responsabilità del Preposto / Gestore</h2>
     <ul>
-      <li>Ruolo effettivo e continuativo nella gestione</li>
-      <li>Legame con l’impresa (dipendente, socio, ecc.)</li>
-      <li>Possibilità di nomina esterna con limiti (max 4 imprese e 50 veicoli)</li>
+      <li>Gestione <strong>effettiva e continuativa</strong> dell’attività di trasporto</li>
+      <li>Organizzazione dei turni e prevenzione infrazioni</li>
+      <li>Controllo veicoli, manutenzione, idoneità e documenti</li>
+      <li>Controllo tachigrafo e tempi guida/riposo</li>
+      <li>Istruzione e supervisione degli autisti (procedure operative)</li>
+      <li>Gestione evidenze: registri, checklist, archivi (ciò che “prova” il lavoro)</li>
     </ul>
   </div>
 
-  <div class="section" id="dettagli">
-    <h2>3. Requisiti dettagliati</h2>
-    <h3>Stabilimento</h3>
+  <div class="section" id="checklist">
+    <h2>3. Checklist attività (stampabile)</h2>
+    <p class="muted">Suggerimento pratico: compila e poi usa <strong>Stampa/Salva PDF</strong> per archiviare.</p>
+
+    <h3>Giornaliere</h3>
     <ul>
-      <li>Locali accessibili con documentazione</li>
-      <li>Veicoli registrati</li>
-      <li>Strutture e attrezzature tecniche</li>
+      <li><label><input type="checkbox" class="ck"> Verifica disponibilità documenti di bordo (carta circolazione, assicurazione, licenze)</label></li>
+      <li><label><input type="checkbox" class="ck"> Controllo idoneità autista (patente/CQC valide, tesserini, eventuali limitazioni)</label></li>
+      <li><label><input type="checkbox" class="ck"> Verifica uso corretto tachigrafo (carta inserita, modalità corretta, assenza manomissioni evidenti)</label></li>
+      <li><label><input type="checkbox" class="ck"> Check rapido veicolo (luci, gomme, segnalazioni, eventuali anomalie)</label></li>
     </ul>
-    <h3>Onorabilità</h3>
+
+    <h3>Settimanali</h3>
     <ul>
-      <li>Assenza di condanne o infrazioni gravi</li>
-      <li>Rispetto della normativa UE e nazionale</li>
+      <li><label><input type="checkbox" class="ck"> Scarico/controllo dati tachigrafo (autista/veicolo) e verifica anomalie</label></li>
+      <li><label><input type="checkbox" class="ck"> Verifica tempi guida/riposo e gestione eventuali infrazioni (correzioni organizzative)</label></li>
+      <li><label><input type="checkbox" class="ck"> Verifica scadenze prossime (revisioni, assicurazioni, CQC, visite mediche)</label></li>
     </ul>
-    <h3>Idoneità finanziaria</h3>
+
+    <h3>Mensili</h3>
     <ul>
-      <li>Capitale minimo di €9.000 + €5.000 per ogni veicolo extra</li>
-      <li>Garanzia bancaria o assicurazione alternativa</li>
+      <li><label><input type="checkbox" class="ck"> Piano manutenzione: controlli eseguiti e interventi programmati</label></li>
+      <li><label><input type="checkbox" class="ck"> Riunione/briefing con autisti (sicurezza, procedure, errori ricorrenti)</label></li>
+      <li><label><input type="checkbox" class="ck"> Audit documentale: archivi tachigrafici, contratti, incarichi, deleghe, procedure</label></li>
     </ul>
-    <h3>Idoneità professionale</h3>
-    <ul>
-      <li>Esame scritto (possibilmente orale) su materie specifiche</li>
-      <li>Esenzione possibile in caso di esperienza o titoli specifici</li>
-    </ul>
+
+    <div class="actions">
+      <button class="secondary" onclick="printOnly('checklist')">🖨️ Stampa solo Checklist</button>
+      <button class="secondary" onclick="window.print()">🖨️ Stampa pagina intera</button>
+      <button class="secondary" onclick="resetChecklist()">🔄 Azzera checklist</button>
+    </div>
   </div>
 
-  <div class="section" id="controlli">
-    <h2>4. Sorveglianza e controlli</h2>
-    <ul>
-      <li>Registri elettronici nazionali</li>
-      <li>Controlli periodici delle imprese</li>
-      <li>Sanzioni: sospensione, revoca autorizzazione, inidoneità</li>
-    </ul>
+  <div class="section" id="registro">
+    <h2>4. Registro controlli interno (salva nel browser)</h2>
+    <p class="muted">Questo registro crea “traccia” del lavoro del preposto. È una delle cose più utili in caso di ispezione.</p>
+
+    <div class="actions print-hide">
+      <button onclick="addRow()">➕ Aggiungi riga</button>
+      <button class="secondary" onclick="saveRegistro()">💾 Salva</button>
+      <button class="secondary" onclick="loadRegistro()">📂 Carica</button>
+      <button class="secondary" onclick="exportJSON()">⬇️ Export JSON</button>
+      <button class="secondary" onclick="printOnly('registro')">🖨️ Stampa solo Registro</button>
+      <button class="secondary" onclick="window.print()">🖨️ Stampa / Salva PDF</button>
+      <button class="secondary" onclick="clearRegistro()">🗑️ Svuota</button>
+    </div>
+
+    <div class="note">
+      <div class="muted"><strong>Nota:</strong> il salvataggio è in <em>localStorage</em> (solo su questo dispositivo/browser).</div>
+    </div>
+
+    <div class="registro-wrap">
+      <div class="registro-header">
+        <div>Data</div>
+        <div>Area</div>
+        <div>Attività / Controllo</div>
+        <div>Esito</div>
+        <div>Azioni correttive / Note</div>
+        <div class="cell-actions">Azioni</div>
+      </div>
+      <div id="registroRows" class="registro-rows"></div>
+    </div>
   </div>
 
-  <div class="section" id="cooperazione">
-    <h2>5. Cooperazione tra Stati membri</h2>
+  <div class="section" id="ispezione">
+    <h2>5. Gestione ispezioni (procedura rapida)</h2>
+
+    <h3>Prima cosa: ordine e calma</h3>
     <ul>
-      <li>Scambio di informazioni su infrazioni e gestori inidonei</li>
-      <li>Designazione dei punti di contatto nazionali</li>
+      <li>Identifica l’organo di controllo e richiedi indicazioni su cosa stanno verificando</li>
+      <li>Evita discussioni: fornisci documenti e rispondi in modo semplice e coerente</li>
+      <li>Annota ora, luogo, nominativi (se disponibili) e oggetto del controllo</li>
     </ul>
+
+    <h3>Cartella “pronta-controllo” (consigliata)</h3>
+    <ul>
+      <li>Licenza comunitaria / autorizzazioni e copia conforme (se applicabile)</li>
+      <li>Contratto/nomina del gestore (e prova del ruolo effettivo)</li>
+      <li>Elenco veicoli, scadenze, manutenzioni, revisioni</li>
+      <li>Archivio tachigrafico (scarichi, controlli, report e gestione anomalie)</li>
+      <li>Procedure interne (guida/riposo, uso tachigrafo, sicurezza, istruzioni autisti)</li>
+      <li>Registro controlli (questa pagina) + eventuali checklist stampate</li>
+    </ul>
+
+    <h3>Cosa dimostrare (in sostanza)</h3>
+    <ul>
+      <li><strong>Presenza e continuità</strong> del gestore (non “solo sulla carta”)</li>
+      <li><strong>Prevenzione</strong>: controlli effettuati prima che succedano problemi</li>
+      <li><strong>Correzione</strong>: quando emerge un’anomalia, l’azione correttiva è registrata</li>
+    </ul>
+
+    <div class="actions">
+      <button class="secondary" onclick="printOnly('ispezione')">🖨️ Stampa solo Ispezione</button>
+      <button class="secondary" onclick="window.print()">🖨️ Stampa pagina intera</button>
+    </div>
+
+    <div class="note">
+      <p class="muted">
+        Opinione: se hai <strong>registro + evidenze</strong>, la conversazione con l’ispettore cambia completamente.
+        Senza evidenze, anche l’azienda più seria fa fatica a “provarlo”.
+      </p>
+    </div>
   </div>
 
-  <div class="section" id="attestati">
-    <h2>6. Attestati e riconoscimenti</h2>
-    <ul>
-      <li>Riconoscimento reciproco degli attestati di idoneità</li>
-      <li>Modello unico UE per attestato professionale</li>
-    </ul>
-  </div>
+<script>
+  // --- Stampa selettiva (solo una sezione) ---
+  function printOnly(sectionId){
+    document.body.setAttribute("data-print", sectionId);
+    window.print();
+  }
+  window.addEventListener("afterprint", () => {
+    document.body.removeAttribute("data-print");
+  });
 
-  <div class="section" id="materie">
-    <h2>7. Materie d’esame per l’idoneità professionale</h2>
-    <ul>
-      <li>Diritto civile, commerciale, sociale, tributario</li>
-      <li>Gestione finanziaria, accesso al mercato, sicurezza stradale</li>
-      <li>Norme tecniche e gestione dei veicoli</li>
-      <li>Trasporto di merci pericolose, rifiuti, animali</li>
-    </ul>
-  </div>
+  // --- Checklist (persistenza semplice) ---
+  const CK_KEY = "preposto_checklist_v1";
+  function saveChecklist(){
+    const states = Array.from(document.querySelectorAll(".ck")).map(c => c.checked);
+    localStorage.setItem(CK_KEY, JSON.stringify(states));
+  }
+  function loadChecklist(){
+    try{
+      const raw = localStorage.getItem(CK_KEY);
+      if(!raw) return;
+      const states = JSON.parse(raw);
+      document.querySelectorAll(".ck").forEach((c,i)=> c.checked = !!states[i]);
+    }catch(e){}
+  }
+  function resetChecklist(){
+    document.querySelectorAll(".ck").forEach(c => c.checked = false);
+    saveChecklist();
+  }
+  document.addEventListener("change", (e)=>{
+    if(e.target.classList && e.target.classList.contains("ck")) saveChecklist();
+    if(e.target.classList && e.target.classList.contains("esito")) syncEsitoClasses();
+  });
+
+  // --- Registro controlli ---
+  const REG_KEY = "preposto_registro_v1";
+
+  function rowTemplate(data){
+    const d = data || {date:"", area:"Tachigrafo", attivita:"", esito:"OK", note:""};
+    return `
+      <div class="registro-row">
+        <div class="field" data-label="Data">
+          <input type="date" value="${escapeHtml(d.date)}">
+        </div>
+        <div class="field" data-label="Area">
+          <select class="area">
+            ${option("Tachigrafo", d.area)}
+            ${option("Guida/Riposo", d.area)}
+            ${option("Veicoli/Manutenzione", d.area)}
+            ${option("Documenti", d.area)}
+            ${option("Autisti/Formazione", d.area)}
+            ${option("Sicurezza", d.area)}
+            ${option("Altro", d.area)}
+          </select>
+        </div>
+        <div class="field" data-label="Attività / Controllo">
+          <textarea placeholder="Descrivi controllo/attività...">${escapeHtml(d.attivita)}</textarea>
+        </div>
+        <div class="field" data-label="Esito">
+          <select class="esito">
+            ${option("OK", d.esito)}
+            ${option("KO", d.esito)}
+            ${option("Da verificare", d.esito)}
+          </select>
+        </div>
+        <div class="field" data-label="Azioni correttive / Note">
+          <textarea placeholder="Azioni correttive, note, follow-up...">${escapeHtml(d.note)}</textarea>
+        </div>
+        <div class="field cell-actions no-print" data-label="Azioni">
+          <button class="btn-mini" type="button" onclick="deleteRow(this)">Elimina</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function option(label, current){
+    const sel = (label === current) ? "selected" : "";
+    return `<option ${sel}>${label}</option>`;
+  }
+
+  function escapeHtml(str){
+    return (str || "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+  }
+
+  function getTableData(){
+    const rows = Array.from(document.querySelectorAll("#registroRows .registro-row"));
+    return rows.map(r => {
+      const date = r.querySelector('input[type="date"]').value || "";
+      const area = r.querySelector("select.area")?.value || "";
+      const esito = r.querySelector("select.esito")?.value || "";
+      const texts = r.querySelectorAll("textarea");
+      const attivita = texts[0]?.value || "";
+      const note = texts[1]?.value || "";
+      return {date, area, attivita, esito, note};
+    });
+  }
+
+  function renderTable(data){
+    const host = document.querySelector("#registroRows");
+    host.innerHTML = (data && data.length) ? data.map(rowTemplate).join("") : rowTemplate();
+    syncEsitoClasses();
+  }
+
+  function addRow(){
+    const host = document.querySelector("#registroRows");
+    host.insertAdjacentHTML("beforeend", rowTemplate());
+    syncEsitoClasses();
+  }
+
+  function deleteRow(btn){
+    const row = btn.closest(".registro-row");
+    if(row) row.remove();
+    // non salvo in automatico: scelta voluta (evita salvataggi involontari). Usa "Salva".
+  }
+
+  function syncEsitoClasses(){
+    document.querySelectorAll("select.esito").forEach(s => {
+      s.classList.remove("ok","warn","ko");
+      if(s.value === "OK") s.classList.add("ok");
+      else if(s.value === "KO") s.classList.add("ko");
+      else s.classList.add("warn");
+    });
+  }
+
+  function saveRegistro(){
+    const data = getTableData();
+    localStorage.setItem(REG_KEY, JSON.stringify(data));
+    alert("Registro salvato nel browser.");
+  }
+
+  function loadRegistro(){
+    try{
+      const raw = localStorage.getItem(REG_KEY);
+      if(!raw){
+        alert("Nessun registro salvato trovato.");
+        return;
+      }
+      const data = JSON.parse(raw);
+      renderTable(Array.isArray(data) ? data : []);
+      alert("Registro caricato.");
+    }catch(e){
+      alert("Errore nel caricamento del registro.");
+    }
+  }
+
+  function exportJSON(){
+    const data = getTableData();
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type: "application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "registro-controlli-preposto.json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function clearRegistro(){
+    if(!confirm("Vuoi svuotare il registro?")) return;
+    renderTable([]);
+    localStorage.removeItem(REG_KEY);
+  }
+
+  // Init
+  loadChecklist();
+  (function initRegistro(){
+    // Carico se esiste, altrimenti riga vuota
+    try{
+      const raw = localStorage.getItem(REG_KEY);
+      if(raw){
+        const data = JSON.parse(raw);
+        renderTable(Array.isArray(data) ? data : []);
+      }else{
+        renderTable([]);
+      }
+    }catch(e){
+      renderTable([]);
+    }
+  })();
+</script>
 
 </body>
 </html>
