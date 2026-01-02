@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cash Flow Mensile</title>
-  <link rel="stylesheet" href="stile.css">
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cash Flow Mensile</title>
+<link href="../stile.css" rel="stylesheet"/>
+<style>
     body {
       font-family: Arial, sans-serif;
       padding: 1rem;
@@ -63,32 +64,27 @@
     }
   </style>
 </head>
-<body>
-  <nav>
-    <a href="index.html">🏠 Home</a>
-    <a href="entrate-uscite.html">Entrate/Uscite</a>
-    <a href="investimenti.html">Investimenti</a>
-  </nav>
-
-  <h1>Cash Flow Mensile</h1>
-
-  <p>I dati sono generati automaticamente dai movimenti inseriti in <strong>Entrate e Uscite</strong>.</p>
-
-  <table id="tabellaCash">
-    <thead>
-      <tr>
-        <th>Mese</th>
-        <th>Entrate</th>
-        <th>Uscite</th>
-        <th>Saldo</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-
-  <p id="saldoTotale">Saldo Totale: 0.00 €</p>
-
-  <script>
+<body><nav class="top-nav"><a href="../index.html">🏠 Home</a><a href="../finanziaria/index.html">💰 Finanziaria</a><a href="../dieta/index.html">🥗 Dieta</a><a href="../task/index.html">✅ Task</a><a href="../forza/index.html">💪 Forza</a><a href="../preposto/index.html">🚛 Preposto</a></nav><div class="breadcrumb"><a href="../index.html">Home</a><span class="sep">›</span><a href="../finanziaria/index.html">Finanziaria</a><span class="sep">›</span><span>Cashflow</span></div>
+<nav>
+<a href="../index.html">🏠 Home</a>
+<a href="entrate-uscite.html">Entrate/Uscite</a>
+<a href="investimenti.html">Investimenti</a>
+</nav>
+<h1>Cash Flow Mensile</h1>
+<p>I dati sono generati automaticamente dai movimenti inseriti in <strong>Entrate e Uscite</strong>.</p>
+<table id="tabellaCash">
+<thead>
+<tr>
+<th>Mese</th>
+<th>Entrate</th>
+<th>Uscite</th>
+<th>Saldo</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<p id="saldoTotale">Saldo Totale: 0.00 €</p>
+<script>
     const tabella = document.querySelector('#tabellaCash tbody');
     const saldoTotale = document.getElementById('saldoTotale');
 

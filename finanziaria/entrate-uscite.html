@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestione Entrate e Uscite</title>
-    <link rel="stylesheet" href="stile.css">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gestione Entrate e Uscite</title>
+<link href="../stile.css" rel="stylesheet"/>
+<style>
         body {
             font-family: Arial, sans-serif;
             padding: 1rem;
@@ -74,53 +75,47 @@
         }
     </style>
 </head>
-<body>
-    <nav>
-        <a href="index.html">🏠 Home</a>
-        <a href="cashflow.html">Cash Flow</a>
-        <a href="investimenti.html">Investimenti</a>
-    </nav>
-
-    <h1>Gestione Entrate e Uscite</h1>
-
-    <form id="budgetForm">
-        <label>Data: <input type="date" id="data" required></label>
-        <label>Categoria/Descrizione: <input type="text" id="categoria" required></label>
-        <label>Importo (€): <input type="number" id="importo" required></label>
-        <label>Tipo:
+<body><nav class="top-nav"><a href="../index.html">🏠 Home</a><a href="../finanziaria/index.html">💰 Finanziaria</a><a href="../dieta/index.html">🥗 Dieta</a><a href="../task/index.html">✅ Task</a><a href="../forza/index.html">💪 Forza</a><a href="../preposto/index.html">🚛 Preposto</a></nav><div class="breadcrumb"><a href="../index.html">Home</a><span class="sep">›</span><a href="../finanziaria/index.html">Finanziaria</a><span class="sep">›</span><span>Entrate/Uscite</span></div>
+<nav>
+<a href="../index.html">🏠 Home</a>
+<a href="cashflow.html">Cash Flow</a>
+<a href="investimenti.html">Investimenti</a>
+</nav>
+<h1>Gestione Entrate e Uscite</h1>
+<form id="budgetForm">
+<label>Data: <input id="data" required="" type="date"/></label>
+<label>Categoria/Descrizione: <input id="categoria" required="" type="text"/></label>
+<label>Importo (€): <input id="importo" required="" type="number"/></label>
+<label>Tipo:
             <select id="tipo">
-                <option value="Entrata">Entrata</option>
-                <option value="Uscita">Uscita</option>
-            </select>
-        </label>
-        <button type="submit">Aggiungi</button>
-    </form>
-
-    <div class="filtro-section">
-        <label>Filtra per mese:
-            <input type="month" id="filtroMese">
-        </label>
-        <label>Filtra per categoria/descrizione:
-            <input type="text" id="filtroCategoria" placeholder="Categoria o descrizione">
-        </label>
-        <button onclick="filtraPerMeseCategoria()">Applica filtro</button>
-    </div>
-
-    <table id="tabellaBudget">
-        <thead>
-            <tr>
-                <th>Data</th>
-                <th>Categoria/Descrizione</th>
-                <th>Importo</th>
-                <th>Tipo</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-
-    <p id="totale">Totale: 0.00 €</p>
-
-    <script>
+<option value="Entrata">Entrata</option>
+<option value="Uscita">Uscita</option>
+</select>
+</label>
+<button type="submit">Aggiungi</button>
+</form>
+<div class="filtro-section">
+<label>Filtra per mese:
+            <input id="filtroMese" type="month"/>
+</label>
+<label>Filtra per categoria/descrizione:
+            <input id="filtroCategoria" placeholder="Categoria o descrizione" type="text"/>
+</label>
+<button onclick="filtraPerMeseCategoria()">Applica filtro</button>
+</div>
+<table id="tabellaBudget">
+<thead>
+<tr>
+<th>Data</th>
+<th>Categoria/Descrizione</th>
+<th>Importo</th>
+<th>Tipo</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+<p id="totale">Totale: 0.00 €</p>
+<script>
         const form = document.getElementById('budgetForm');
         const tabella = document.querySelector('#tabellaBudget tbody');
         const totaleDisplay = document.getElementById('totale');

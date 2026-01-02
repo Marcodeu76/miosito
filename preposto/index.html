@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Area Preposto – Gestore dei Trasporti</title>
-  <link rel="stylesheet" href="stile.css">
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Area Preposto – Gestore dei Trasporti</title>
+<link href="../stile.css" rel="stylesheet"/>
+<style>
     /* Estensioni leggere senza toccare stile.css */
     .note { max-width: 800px; margin: 10px auto; background:#fff; padding:12px 14px; border-radius:6px; box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
     .pill { display:inline-block; padding:6px 10px; border-radius:999px; border:1px solid #007bff; color:#0056b3; background:#f0f8ff; margin:4px 6px 0 0; font-size:0.9rem; }
@@ -135,160 +136,137 @@
     }
   </style>
 </head>
-
-<body>
-
-  <div class="home-button">
-    <a href="index.html">🏠 Torna alla Home</a>
-  </div>
-
-  <h1>Area Preposto – Gestore dei Trasporti</h1>
-
-  <nav>
-    <a href="#normativa">Normativa</a>
-    <a href="#ruolo">Ruolo</a>
-    <a href="#checklist">Checklist</a>
-    <a href="#registro">Registro Controlli</a>
-    <a href="#ispezione">Ispezione</a>
-  </nav>
-
-  <div class="note">
-    <span class="pill">Operatività</span>
-    <span class="pill">Conformità</span>
-    <span class="pill">Pronto-controllo</span>
-    <p class="muted">
+<body><nav class="top-nav"><a href="../index.html">🏠 Home</a><a href="../finanziaria/index.html">💰 Finanziaria</a><a href="../dieta/index.html">🥗 Dieta</a><a href="../task/index.html">✅ Task</a><a href="../forza/index.html">💪 Forza</a><a href="../preposto/index.html">🚛 Preposto</a></nav><div class="breadcrumb"><a href="../index.html">Home</a><span class="sep">›</span><span>Preposto</span></div>
+<div class="home-button">
+<a href="../index.html">🏠 Torna alla Home</a>
+</div>
+<h1>Area Preposto – Gestore dei Trasporti</h1>
+<nav>
+<a href="#normativa">Normativa</a>
+<a href="#ruolo">Ruolo</a>
+<a href="#checklist">Checklist</a>
+<a href="#registro">Registro Controlli</a>
+<a href="#ispezione">Ispezione</a>
+</nav>
+<div class="note">
+<span class="pill">Operatività</span>
+<span class="pill">Conformità</span>
+<span class="pill">Pronto-controllo</span>
+<p class="muted">
       Opinione: la miglior difesa, nei controlli, è poter dimostrare <strong>metodo</strong> e <strong>continuità</strong>.
       Questa pagina ti aiuta a farlo in modo semplice.
     </p>
-  </div>
-
-  <div class="section" id="normativa">
-    <h2>1. Normativa di riferimento</h2>
-    <ul>
-      <li><strong>Regolamento (CE) n. 1071/2009</strong> – Accesso alla professione di trasportatore su strada (requisiti e ruolo del gestore)</li>
-      <li>D.Lgs. 395/2000 e normativa nazionale di attuazione</li>
-      <li>Codice della Strada e disposizioni su pesi/dimensioni, dispositivi, documenti di bordo</li>
-      <li>Normativa sociale: tempi di guida e riposo, tachigrafo</li>
-      <li>Sicurezza sul lavoro e formazione (DVR, procedure, istruzioni)</li>
-    </ul>
-  </div>
-
-  <div class="section" id="ruolo">
-    <h2>2. Ruolo e responsabilità del Preposto / Gestore</h2>
-    <ul>
-      <li>Gestione <strong>effettiva e continuativa</strong> dell’attività di trasporto</li>
-      <li>Organizzazione dei turni e prevenzione infrazioni</li>
-      <li>Controllo veicoli, manutenzione, idoneità e documenti</li>
-      <li>Controllo tachigrafo e tempi guida/riposo</li>
-      <li>Istruzione e supervisione degli autisti (procedure operative)</li>
-      <li>Gestione evidenze: registri, checklist, archivi (ciò che “prova” il lavoro)</li>
-    </ul>
-  </div>
-
-  <div class="section" id="checklist">
-    <h2>3. Checklist attività (stampabile)</h2>
-    <p class="muted">Suggerimento pratico: compila e poi usa <strong>Stampa/Salva PDF</strong> per archiviare.</p>
-
-    <h3>Giornaliere</h3>
-    <ul>
-      <li><label><input type="checkbox" class="ck"> Verifica disponibilità documenti di bordo (carta circolazione, assicurazione, licenze)</label></li>
-      <li><label><input type="checkbox" class="ck"> Controllo idoneità autista (patente/CQC valide, tesserini, eventuali limitazioni)</label></li>
-      <li><label><input type="checkbox" class="ck"> Verifica uso corretto tachigrafo (carta inserita, modalità corretta, assenza manomissioni evidenti)</label></li>
-      <li><label><input type="checkbox" class="ck"> Check rapido veicolo (luci, gomme, segnalazioni, eventuali anomalie)</label></li>
-    </ul>
-
-    <h3>Settimanali</h3>
-    <ul>
-      <li><label><input type="checkbox" class="ck"> Scarico/controllo dati tachigrafo (autista/veicolo) e verifica anomalie</label></li>
-      <li><label><input type="checkbox" class="ck"> Verifica tempi guida/riposo e gestione eventuali infrazioni (correzioni organizzative)</label></li>
-      <li><label><input type="checkbox" class="ck"> Verifica scadenze prossime (revisioni, assicurazioni, CQC, visite mediche)</label></li>
-    </ul>
-
-    <h3>Mensili</h3>
-    <ul>
-      <li><label><input type="checkbox" class="ck"> Piano manutenzione: controlli eseguiti e interventi programmati</label></li>
-      <li><label><input type="checkbox" class="ck"> Riunione/briefing con autisti (sicurezza, procedure, errori ricorrenti)</label></li>
-      <li><label><input type="checkbox" class="ck"> Audit documentale: archivi tachigrafici, contratti, incarichi, deleghe, procedure</label></li>
-    </ul>
-
-    <div class="actions">
-      <button class="secondary" onclick="printOnly('checklist')">🖨️ Stampa solo Checklist</button>
-      <button class="secondary" onclick="window.print()">🖨️ Stampa pagina intera</button>
-      <button class="secondary" onclick="resetChecklist()">🔄 Azzera checklist</button>
-    </div>
-  </div>
-
-  <div class="section" id="registro">
-    <h2>4. Registro controlli interno (salva nel browser)</h2>
-    <p class="muted">Questo registro crea “traccia” del lavoro del preposto. È una delle cose più utili in caso di ispezione.</p>
-
-    <div class="actions print-hide">
-      <button onclick="addRow()">➕ Aggiungi riga</button>
-      <button class="secondary" onclick="saveRegistro()">💾 Salva</button>
-      <button class="secondary" onclick="loadRegistro()">📂 Carica</button>
-      <button class="secondary" onclick="exportJSON()">⬇️ Export JSON</button>
-      <button class="secondary" onclick="printOnly('registro')">🖨️ Stampa solo Registro</button>
-      <button class="secondary" onclick="window.print()">🖨️ Stampa / Salva PDF</button>
-      <button class="secondary" onclick="clearRegistro()">🗑️ Svuota</button>
-    </div>
-
-    <div class="note">
-      <div class="muted"><strong>Nota:</strong> il salvataggio è in <em>localStorage</em> (solo su questo dispositivo/browser).</div>
-    </div>
-
-    <div class="registro-wrap">
-      <div class="registro-header">
-        <div>Data</div>
-        <div>Area</div>
-        <div>Attività / Controllo</div>
-        <div>Esito</div>
-        <div>Azioni correttive / Note</div>
-        <div class="cell-actions">Azioni</div>
-      </div>
-      <div id="registroRows" class="registro-rows"></div>
-    </div>
-  </div>
-
-  <div class="section" id="ispezione">
-    <h2>5. Gestione ispezioni (procedura rapida)</h2>
-
-    <h3>Prima cosa: ordine e calma</h3>
-    <ul>
-      <li>Identifica l’organo di controllo e richiedi indicazioni su cosa stanno verificando</li>
-      <li>Evita discussioni: fornisci documenti e rispondi in modo semplice e coerente</li>
-      <li>Annota ora, luogo, nominativi (se disponibili) e oggetto del controllo</li>
-    </ul>
-
-    <h3>Cartella “pronta-controllo” (consigliata)</h3>
-    <ul>
-      <li>Licenza comunitaria / autorizzazioni e copia conforme (se applicabile)</li>
-      <li>Contratto/nomina del gestore (e prova del ruolo effettivo)</li>
-      <li>Elenco veicoli, scadenze, manutenzioni, revisioni</li>
-      <li>Archivio tachigrafico (scarichi, controlli, report e gestione anomalie)</li>
-      <li>Procedure interne (guida/riposo, uso tachigrafo, sicurezza, istruzioni autisti)</li>
-      <li>Registro controlli (questa pagina) + eventuali checklist stampate</li>
-    </ul>
-
-    <h3>Cosa dimostrare (in sostanza)</h3>
-    <ul>
-      <li><strong>Presenza e continuità</strong> del gestore (non “solo sulla carta”)</li>
-      <li><strong>Prevenzione</strong>: controlli effettuati prima che succedano problemi</li>
-      <li><strong>Correzione</strong>: quando emerge un’anomalia, l’azione correttiva è registrata</li>
-    </ul>
-
-    <div class="actions">
-      <button class="secondary" onclick="printOnly('ispezione')">🖨️ Stampa solo Ispezione</button>
-      <button class="secondary" onclick="window.print()">🖨️ Stampa pagina intera</button>
-    </div>
-
-    <div class="note">
-      <p class="muted">
+</div>
+<div class="section" id="normativa">
+<h2>1. Normativa di riferimento</h2>
+<ul>
+<li><strong>Regolamento (CE) n. 1071/2009</strong> – Accesso alla professione di trasportatore su strada (requisiti e ruolo del gestore)</li>
+<li>D.Lgs. 395/2000 e normativa nazionale di attuazione</li>
+<li>Codice della Strada e disposizioni su pesi/dimensioni, dispositivi, documenti di bordo</li>
+<li>Normativa sociale: tempi di guida e riposo, tachigrafo</li>
+<li>Sicurezza sul lavoro e formazione (DVR, procedure, istruzioni)</li>
+</ul>
+</div>
+<div class="section" id="ruolo">
+<h2>2. Ruolo e responsabilità del Preposto / Gestore</h2>
+<ul>
+<li>Gestione <strong>effettiva e continuativa</strong> dell’attività di trasporto</li>
+<li>Organizzazione dei turni e prevenzione infrazioni</li>
+<li>Controllo veicoli, manutenzione, idoneità e documenti</li>
+<li>Controllo tachigrafo e tempi guida/riposo</li>
+<li>Istruzione e supervisione degli autisti (procedure operative)</li>
+<li>Gestione evidenze: registri, checklist, archivi (ciò che “prova” il lavoro)</li>
+</ul>
+</div>
+<div class="section" id="checklist">
+<h2>3. Checklist attività (stampabile)</h2>
+<p class="muted">Suggerimento pratico: compila e poi usa <strong>Stampa/Salva PDF</strong> per archiviare.</p>
+<h3>Giornaliere</h3>
+<ul>
+<li><label><input class="ck" type="checkbox"/> Verifica disponibilità documenti di bordo (carta circolazione, assicurazione, licenze)</label></li>
+<li><label><input class="ck" type="checkbox"/> Controllo idoneità autista (patente/CQC valide, tesserini, eventuali limitazioni)</label></li>
+<li><label><input class="ck" type="checkbox"/> Verifica uso corretto tachigrafo (carta inserita, modalità corretta, assenza manomissioni evidenti)</label></li>
+<li><label><input class="ck" type="checkbox"/> Check rapido veicolo (luci, gomme, segnalazioni, eventuali anomalie)</label></li>
+</ul>
+<h3>Settimanali</h3>
+<ul>
+<li><label><input class="ck" type="checkbox"/> Scarico/controllo dati tachigrafo (autista/veicolo) e verifica anomalie</label></li>
+<li><label><input class="ck" type="checkbox"/> Verifica tempi guida/riposo e gestione eventuali infrazioni (correzioni organizzative)</label></li>
+<li><label><input class="ck" type="checkbox"/> Verifica scadenze prossime (revisioni, assicurazioni, CQC, visite mediche)</label></li>
+</ul>
+<h3>Mensili</h3>
+<ul>
+<li><label><input class="ck" type="checkbox"/> Piano manutenzione: controlli eseguiti e interventi programmati</label></li>
+<li><label><input class="ck" type="checkbox"/> Riunione/briefing con autisti (sicurezza, procedure, errori ricorrenti)</label></li>
+<li><label><input class="ck" type="checkbox"/> Audit documentale: archivi tachigrafici, contratti, incarichi, deleghe, procedure</label></li>
+</ul>
+<div class="actions">
+<button class="secondary" onclick="printOnly('checklist')">🖨️ Stampa solo Checklist</button>
+<button class="secondary" onclick="window.print()">🖨️ Stampa pagina intera</button>
+<button class="secondary" onclick="resetChecklist()">🔄 Azzera checklist</button>
+</div>
+</div>
+<div class="section" id="registro">
+<h2>4. Registro controlli interno (salva nel browser)</h2>
+<p class="muted">Questo registro crea “traccia” del lavoro del preposto. È una delle cose più utili in caso di ispezione.</p>
+<div class="actions print-hide">
+<button onclick="addRow()">➕ Aggiungi riga</button>
+<button class="secondary" onclick="saveRegistro()">💾 Salva</button>
+<button class="secondary" onclick="loadRegistro()">📂 Carica</button>
+<button class="secondary" onclick="exportJSON()">⬇️ Export JSON</button>
+<button class="secondary" onclick="printOnly('registro')">🖨️ Stampa solo Registro</button>
+<button class="secondary" onclick="window.print()">🖨️ Stampa / Salva PDF</button>
+<button class="secondary" onclick="clearRegistro()">🗑️ Svuota</button>
+</div>
+<div class="note">
+<div class="muted"><strong>Nota:</strong> il salvataggio è in <em>localStorage</em> (solo su questo dispositivo/browser).</div>
+</div>
+<div class="registro-wrap">
+<div class="registro-header">
+<div>Data</div>
+<div>Area</div>
+<div>Attività / Controllo</div>
+<div>Esito</div>
+<div>Azioni correttive / Note</div>
+<div class="cell-actions">Azioni</div>
+</div>
+<div class="registro-rows" id="registroRows"></div>
+</div>
+</div>
+<div class="section" id="ispezione">
+<h2>5. Gestione ispezioni (procedura rapida)</h2>
+<h3>Prima cosa: ordine e calma</h3>
+<ul>
+<li>Identifica l’organo di controllo e richiedi indicazioni su cosa stanno verificando</li>
+<li>Evita discussioni: fornisci documenti e rispondi in modo semplice e coerente</li>
+<li>Annota ora, luogo, nominativi (se disponibili) e oggetto del controllo</li>
+</ul>
+<h3>Cartella “pronta-controllo” (consigliata)</h3>
+<ul>
+<li>Licenza comunitaria / autorizzazioni e copia conforme (se applicabile)</li>
+<li>Contratto/nomina del gestore (e prova del ruolo effettivo)</li>
+<li>Elenco veicoli, scadenze, manutenzioni, revisioni</li>
+<li>Archivio tachigrafico (scarichi, controlli, report e gestione anomalie)</li>
+<li>Procedure interne (guida/riposo, uso tachigrafo, sicurezza, istruzioni autisti)</li>
+<li>Registro controlli (questa pagina) + eventuali checklist stampate</li>
+</ul>
+<h3>Cosa dimostrare (in sostanza)</h3>
+<ul>
+<li><strong>Presenza e continuità</strong> del gestore (non “solo sulla carta”)</li>
+<li><strong>Prevenzione</strong>: controlli effettuati prima che succedano problemi</li>
+<li><strong>Correzione</strong>: quando emerge un’anomalia, l’azione correttiva è registrata</li>
+</ul>
+<div class="actions">
+<button class="secondary" onclick="printOnly('ispezione')">🖨️ Stampa solo Ispezione</button>
+<button class="secondary" onclick="window.print()">🖨️ Stampa pagina intera</button>
+</div>
+<div class="note">
+<p class="muted">
         Opinione: se hai <strong>registro + evidenze</strong>, la conversazione con l’ispettore cambia completamente.
         Senza evidenze, anche l’azienda più seria fa fatica a “provarlo”.
       </p>
-    </div>
-  </div>
-
+</div>
+</div>
 <script>
   // --- Stampa selettiva (solo una sezione) ---
   function printOnly(sectionId){
@@ -469,6 +447,5 @@
     }
   })();
 </script>
-
 </body>
 </html>
