@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Home - Mio sito privato</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="stile.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    header { text-align: center; margin-bottom: 2rem; }
+    h1 { color: #007bff; }
+    .menu{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap:1rem;
+      max-width:1100px;
+      margin:0 auto;
+    }
+    .box{
+      border:1px solid #007bff;
+      border-radius:8px;
+      padding:1rem;
+      background:#f0f8ff;
+      text-align:center;
+    }
+    .box a{
+      text-decoration:none;
+      font-weight:bold;
+      color:#007bff;
+      font-size:1.05rem;
+      display:block;
+    }
+    .box:hover{ background-color:#e0f0ff; }
+    .box small{
+      display:block;
+      margin-top:.5rem;
+      color:#333;
+      font-size:.85rem;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>📘 Mio Sito</h1>
+    <p>Gestione progetti – Operatività – Controllo</p>
+  </header>
+
+  <section class="menu">
+    <div class="box">
+      <a href="finanziaria/index.html">Intelligenza finanziaria</a>
+      <small>Patrimonio, investimenti, strategia</small>
+    </div>
+
+    <div class="box">
+      <a href="dieta/index.html">Dieta</a>
+      <small>Salute, alimentazione e disciplina</small>
+    </div>
+
+    <div class="box">
+      <a href="task/index.html">Task prioritaria</a>
+      <small>Focus quotidiano</small>
+    </div>
+
+    <div class="box">
+      <a href="forza/index.html">Forza interiore</a>
+      <small>Valori e resilienza</small>
+    </div>
+
+    <div class="box">
+      <a href="preposto/index.html">Area Preposto – Gestore Trasporti</a>
+      <small>Normativa + checklist + registro controlli + gestione ispezioni (tutto in un’unica pagina)</small>
+    </div>
+  </section>
+</body>
+</html>

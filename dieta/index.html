@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Dieta</title>
+<link href="../stile.css" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    @media (max-width: 768px) {
+      input, select, textarea, button {
+        width: 100% !important;
+        font-size: 1rem;
+      }
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      th, td {
+        padding: 10px;
+        text-align: right;
+        border: none;
+      }
+      th::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+      }
+    }
+    .dark-mode {
+      background-color: #222;
+      color: #f1f1f1;
+    }
+    .dark-mode nav {
+      background-color: #111;
+    }
+    .dark-mode .box, .dark-mode li {
+      background-color: #333;
+      color: #f1f1f1;
+    }
+  </style>
+</head>
+<body><nav class="top-nav"><a href="../index.html">🏠 Home</a><a href="../finanziaria/index.html">💰 Finanziaria</a><a href="../dieta/index.html">🥗 Dieta</a><a href="../task/index.html">✅ Task</a><a href="../forza/index.html">💪 Forza</a><a href="../preposto/index.html">🚛 Preposto</a></nav><div class="breadcrumb"><a href="../index.html">Home</a><span class="sep">›</span><span>Dieta</span></div>
+<div class="home-button">
+<a href="../index.html">🏠 Torna alla Home</a>
+</div>
+<nav>
+<a href="../index.html">Home</a>
+<a href="#inserimento">Inserisci Pasto</a>
+<a href="#menu">Menu Settimanale</a>
+<a href="#grafici">Grafici</a>
+<a href="#" onclick="toggleDarkMode()">🌓 Tema</a>
+</nav>
+<header>
+<h1>Gestione Dieta</h1>
+
+<div class="section" id="dispensa" style="max-width:950px;">
+  <h2>Spesa efficace — Dispensa di base</h2>
+  <p style="opacity:.9;margin-top:-6px;">
+    Questa lista ti aiuta a fare la spesa in modo rapido: hai sempre gli ingredienti “fondamentali”.
+    Puoi <strong>aggiungere</strong>, <strong>modificare</strong> ed <strong>eliminare</strong> prodotti, divisi per categoria.
+  </p>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:end; margin-top:10px;">
+    <div style="flex:1 1 220px;">
+      <label for="p_cat" style="font-weight:700; display:block; margin:6px 0 4px;">Categoria</label>
+      <select id="p_cat" style="width:100%; padding:10px; border:1px solid #d0d7de; border-radius:10px;">
+        <option>Verdure</option>
+        <option>Frutta</option>
+        <option>Legumi</option>
+        <option>Cereali integrali</option>
+        <option>Proteine</option>
+        <option>Grassi buoni</option>
+        <option>Dispensa</option>
+        <option>Spezie e condimenti</option>
+        <option>Bevande</option>
+      </select>
+    </div>
+    <div style="flex:2 1 320px;">
+      <label for="p_nome" style="font-weight:700; display:block; margin:6px 0 4px;">Prodotto</label>
+      <input id="p_nome" placeholder="Es. Ceci (barattolo o secchi)" style="width:100%; padding:10px; border:1px solid #d0d7de; border-radius:10px;" />
+    </div>
+    <div style="flex:2 1 320px;">
+      <label for="p_note" style="font-weight:700; display:block; margin:6px 0 4px;">Note (facoltative)</label>
+      <input id="p_note" placeholder="Es. minimo 2 confezioni" style="width:100%; padding:10px; border:1px solid #d0d7de; border-radius:10px;" />
+    </div>
+    <button id="p_salva" class="btn primary" style="padding:10px 14px; border-radius:999px; border:0; font-weight:700; cursor:pointer;">Aggiungi</button>
+    <button id="p_export" class="btn ghost" style="padding:10px 14px; border-radius:999px; border:0; font-weight:700; cursor:pointer;">Esporta</button>
+    <button id="p_import" class="btn ghost" style="padding:10px 14px; border-radius:999px; border:0; font-weight:700; cursor:pointer;">Importa</button>
+    <input id="p_importFile" type="file" accept="application/json" style="display:none;" />
+  </div>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; align-items:center;">
+    <div style="flex:1 1 220px;">
+      <label for="p_filtro" style="font-weight:700; display:block; margin:6px 0 4px;">Filtro categoria</label>
+      <select id="p_filtro" style="width:100%; padding:10px; border:1px solid #d0d7de; border-radius:10px;">
+        <option value="Tutte">Tutte</option>
+        <option>Verdure</option>
+        <option>Frutta</option>
+        <option>Legumi</option>
+        <option>Cereali integrali</option>
+        <option>Proteine</option>
+        <option>Grassi buoni</option>
+        <option>Dispensa</option>
+        <option>Spezie e condimenti</option>
+        <option>Bevande</option>
+      </select>
+    </div>
+    <div style="flex:2 1 320px;">
+      <label for="p_cerca" style="font-weight:700; display:block; margin:6px 0 4px;">Cerca</label>
+      <input id="p_cerca" placeholder="Cerca prodotto..." style="width:100%; padding:10px; border:1px solid #d0d7de; border-radius:10px;" />
+    </div>
+    <div style="flex:1 1 220px;">
+      <label style="font-weight:700; display:block; margin:6px 0 4px;">Piatti e Menu</label>
+      <a class="btn primary" href="piatti.html" style="display:inline-block; text-decoration:none; padding:10px 14px; border-radius:999px;">Apri pagina Piatti</a>
+    </div>
+  </div>
+
+  <div id="p_lista" style="margin-top:12px; display:flex; flex-direction:column; gap:10px;"></div>
+  <p id="p_vuoto" style="display:none; opacity:.9;">Lista vuota. Aggiungi il primo prodotto.</p>
+</div>
+
+<script>
+(function(){
+  const KEY = "dieta_dispensa_v1";
+  const $ = (id)=>document.getElementById(id);
+
+  const cat = $("p_cat");
+  const nome = $("p_nome");
+  const note = $("p_note");
+  const salva = $("p_salva");
+
+  const filtro = $("p_filtro");
+  const cerca = $("p_cerca");
+  const lista = $("p_lista");
+  const vuoto = $("p_vuoto");
+
+  const exportBtn = $("p_export");
+  const importBtn = $("p_import");
+  const importFile = $("p_importFile");
+
+  let editingId = null;
+
+  function uid(){ return "id_" + Math.random().toString(16).slice(2) + Date.now().toString(16); }
+  function load(){ try{ return JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e){ return []; } }
+  function save(data){ localStorage.setItem(KEY, JSON.stringify(data)); }
+
+  function seedIfEmpty(){
+    const data = load();
+    if(data.length) return;
+
+    const seed = [
+      // Verdure
+      {id:uid(), cat:"Verdure", nome:"Broccoli / cavolfiore", note:"surgelati ok", buy:false},
+      {id:uid(), cat:"Verdure", nome:"Spinaci / bietole", note:"", buy:false},
+      {id:uid(), cat:"Verdure", nome:"Zucchine", note:"", buy:false},
+      {id:uid(), cat:"Verdure", nome:"Carote", note:"", buy:false},
+      {id:uid(), cat:"Verdure", nome:"Insalata mista", note:"", buy:false},
+
+      // Frutta
+      {id:uid(), cat:"Frutta", nome:"Mele / pere", note:"", buy:false},
+      {id:uid(), cat:"Frutta", nome:"Agrumi (arance/limoni)", note:"", buy:false},
+      {id:uid(), cat:"Frutta", nome:"Frutti di bosco", note:"anche surgelati", buy:false},
+
+      // Legumi
+      {id:uid(), cat:"Legumi", nome:"Ceci", note:"barattolo o secchi", buy:false},
+      {id:uid(), cat:"Legumi", nome:"Lenticchie", note:"", buy:false},
+      {id:uid(), cat:"Legumi", nome:"Fagioli", note:"", buy:false},
+
+      // Cereali integrali
+      {id:uid(), cat:"Cereali integrali", nome:"Avena", note:"", buy:false},
+      {id:uid(), cat:"Cereali integrali", nome:"Riso integrale", note:"", buy:false},
+      {id:uid(), cat:"Cereali integrali", nome:"Farro / orzo", note:"", buy:false},
+
+      // Proteine
+      {id:uid(), cat:"Proteine", nome:"Uova", note:"", buy:false},
+      {id:uid(), cat:"Proteine", nome:"Pesce (fresco o surgelato)", note:"", buy:false},
+      {id:uid(), cat:"Proteine", nome:"Tofu (opzionale)", note:"", buy:false},
+
+      // Grassi buoni
+      {id:uid(), cat:"Grassi buoni", nome:"Olio extravergine d'oliva", note:"fondamentale", buy:false},
+      {id:uid(), cat:"Grassi buoni", nome:"Noci / mandorle", note:"senza semi", buy:false},
+
+      // Dispensa
+      {id:uid(), cat:"Dispensa", nome:"Passata / pomodori pelati", note:"", buy:false},
+      {id:uid(), cat:"Dispensa", nome:"Tonno in vetro (opzionale)", note:"", buy:false},
+
+      // Spezie e condimenti
+      {id:uid(), cat:"Spezie e condimenti", nome:"Sale iodato", note:"", buy:false},
+      {id:uid(), cat:"Spezie e condimenti", nome:"Pepe, curcuma, cannella", note:"", buy:false},
+      {id:uid(), cat:"Spezie e condimenti", nome:"Aceto / limone", note:"", buy:false},
+
+      // Bevande
+      {id:uid(), cat:"Bevande", nome:"Tè verde / tisane", note:"", buy:false}
+    ];
+    save(seed);
+  }
+
+  function escapeHtml(str){
+    return (str||"").replace(/[&<>"']/g, (c)=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
+  }
+
+  function match(item){
+    const f = filtro.value;
+    const q = (cerca.value||"").trim().toLowerCase();
+    if(f !== "Tutte" && item.cat !== f) return false;
+    if(q){
+      const hay = (item.nome + " " + (item.note||"")).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  }
+
+  function render(){
+    const data = load().filter(match);
+
+    lista.innerHTML = "";
+    vuoto.style.display = data.length ? "none" : "block";
+
+    // raggruppa per categoria
+    const groups = {};
+    data.forEach(x=>{ (groups[x.cat] = groups[x.cat] || []).push(x); });
+
+    Object.keys(groups).sort().forEach(catName=>{
+      const wrap = document.createElement("div");
+      wrap.style.border = "1px solid #e6e8eb";
+      wrap.style.borderRadius = "12px";
+      wrap.style.background = "#fff";
+      wrap.style.padding = "12px";
+
+      const head = document.createElement("div");
+      head.style.display = "flex";
+      head.style.justifyContent = "space-between";
+      head.style.alignItems = "center";
+      head.style.flexWrap = "wrap";
+      head.style.gap = "8px";
+
+      head.innerHTML = `<h3 style="margin:0;">${escapeHtml(catName)}</h3>
+        <span style="opacity:.85;">${groups[catName].length} prodotti</span>`;
+      wrap.appendChild(head);
+
+      const ul = document.createElement("div");
+      ul.style.display = "flex";
+      ul.style.flexDirection = "column";
+      ul.style.gap = "8px";
+      ul.style.marginTop = "10px";
+
+      groups[catName]
+        .sort((a,b)=> (a.nome||"").localeCompare(b.nome||""))
+        .forEach(item=>{
+          const row = document.createElement("div");
+          row.style.display = "flex";
+          row.style.gap = "10px";
+          row.style.alignItems = "center";
+          row.style.flexWrap = "wrap";
+
+          row.innerHTML = `
+            <label style="display:flex; gap:10px; align-items:center; flex: 1 1 360px; margin:0;">
+              <input type="checkbox" data-act="buy" data-id="${item.id}" ${item.buy ? "checked" : ""} />
+              <span style="${item.buy ? "text-decoration:line-through; opacity:.75;" : ""}">
+                <strong>${escapeHtml(item.nome)}</strong>${item.note ? ` <span style="opacity:.85;">— ${escapeHtml(item.note)}</span>` : ""}
+              </span>
+            </label>
+            <div style="display:flex; gap:8px;">
+              <button class="btn ghost" data-act="edit" data-id="${item.id}" style="padding:8px 12px; border-radius:999px; border:0; font-weight:700; cursor:pointer;">Modifica</button>
+              <button class="btn danger" data-act="del" data-id="${item.id}" style="padding:8px 12px; border-radius:999px; border:0; font-weight:700; cursor:pointer;">Elimina</button>
+            </div>
+          `;
+          ul.appendChild(row);
+        });
+
+      wrap.appendChild(ul);
+      lista.appendChild(wrap);
+    });
+  }
+
+  function resetForm(){
+    editingId = null;
+    salva.textContent = "Aggiungi";
+    nome.value = "";
+    note.value = "";
+    nome.focus();
+  }
+
+  function upsert(){
+    const n = (nome.value||"").trim();
+    if(!n){ alert("Inserisci un prodotto."); nome.focus(); return; }
+
+    const data = load();
+    if(editingId){
+      const i = data.findIndex(x=>x.id===editingId);
+      if(i>=0){
+        data[i] = {...data[i], cat:cat.value, nome:n, note:(note.value||"").trim()};
+      }
+    }else{
+      data.push({id:uid(), cat:cat.value, nome:n, note:(note.value||"").trim(), buy:false});
+    }
+    save(data);
+    resetForm();
+    render();
+  }
+
+  function edit(id){
+    const item = load().find(x=>x.id===id);
+    if(!item) return;
+    editingId = id;
+    salva.textContent = "Salva modifiche";
+    cat.value = item.cat;
+    nome.value = item.nome || "";
+    note.value = item.note || "";
+    nome.focus();
+  }
+
+  function del(id){
+    if(!confirm("Eliminare questo prodotto?")) return;
+    save(load().filter(x=>x.id!==id));
+    render();
+  }
+
+  function toggleBuy(id, checked){
+    const data = load();
+    const i = data.findIndex(x=>x.id===id);
+    if(i>=0){
+      data[i].buy = !!checked;
+      save(data);
+      render();
+    }
+  }
+
+  // export/import
+  exportBtn.addEventListener("click", ()=>{
+    const data = load();
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "dispensa.json";
+    a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+  });
+
+  importBtn.addEventListener("click", ()=> importFile.click());
+  importFile.addEventListener("change", async (e)=>{
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    try{
+      const text = await file.text();
+      const incoming = JSON.parse(text);
+      if(!Array.isArray(incoming)) throw new Error("Formato non valido");
+      const normalized = incoming.map(x=>({
+        id: x.id || uid(),
+        cat: x.cat || "Dispensa",
+        nome: x.nome || "Senza nome",
+        note: x.note || "",
+        buy: !!x.buy
+      }));
+      save(normalized);
+      resetForm();
+      render();
+      alert("Importazione completata.");
+    }catch(err){
+      alert("Impossibile importare il file.");
+    }finally{
+      e.target.value = "";
+    }
+  });
+
+  // events
+  salva.addEventListener("click", upsert);
+  [filtro, cerca].forEach(el=> el.addEventListener("input", render));
+
+  lista.addEventListener("click", (e)=>{
+    const btn = e.target.closest("button");
+    if(!btn) return;
+    const act = btn.getAttribute("data-act");
+    const id = btn.getAttribute("data-id");
+    if(act==="edit") edit(id);
+    if(act==="del") del(id);
+  });
+
+  lista.addEventListener("change", (e)=>{
+    const cb = e.target.closest("input[type='checkbox']");
+    if(!cb) return;
+    const id = cb.getAttribute("data-id");
+    toggleBuy(id, cb.checked);
+  });
+
+  // init
+  seedIfEmpty();
+  render();
+})();
+</script>
+
+</header>
+<section class="section" id="inserimento">
+<h2>Inserisci Pasto</h2>
+<label>Data: <input id="date" type="date"/></label><br/>
+<label>Tipo Pasto: 
+      <select id="mealType">
+<option>Colazione</option>
+<option>Pranzo</option>
+<option>Cena</option>
+<option>Spuntino</option>
+</select>
+</label><br/>
+<label>Descrizione: <input id="description" type="text"/></label><br/>
+<label>Calorie: <input id="calories" type="number"/></label><br/>
+<label>Carboidrati: <input id="carbs" type="number"/></label><br/>
+<label>Proteine: <input id="protein" type="number"/></label><br/>
+<label>Grassi: <input id="fat" type="number"/></label><br/>
+<button onclick="addMeal()">Aggiungi Pasto</button>
+</section>
+<section class="section">
+<h2>Pasti Registrati</h2>
+<table id="mealsTable">
+<thead>
+<tr><th>Data</th><th>Tipo</th><th>Descrizione</th><th>Calorie</th><th>Carboidrati</th><th>Proteine</th><th>Grassi</th></tr>
+</thead>
+<tbody></tbody>
+</table>
+</section>
+<section class="section">
+<h2>Note Giornaliere</h2>
+<textarea id="dailyNotes" onchange="saveNotes()" placeholder="Scrivi qui le tue note..." rows="4"></textarea>
+</section>
+<section class="section">
+<h2>Salvataggio e Esportazione</h2>
+<button onclick="exportData()">Esporta JSON</button>
+<input id="importFile" onchange="importData(event)" type="file">
+</input></section>
+<section class="section" id="menu">
+<h2>Menu Settimanale (suggerito)</h2>
+<ul id="weeklyMenu"></ul>
+</section>
+<section class="section" id="grafici">
+<h2>Analisi Visiva</h2>
+<canvas height="200" id="macroChart" width="400"></canvas>
+</section>
+<script>
+    const meals = JSON.parse(localStorage.getItem('meals') || '[]');
+    const notes = localStorage.getItem('notes') || '';
+    document.getElementById('dailyNotes').value = notes;
+
+    function saveMeals() {
+      localStorage.setItem('meals', JSON.stringify(meals));
+      renderTable();
+      renderChart();
+    }
+
+    function saveNotes() {
+      localStorage.setItem('notes', document.getElementById('dailyNotes').value);
+    }
+
+    function addMeal() {
+      const meal = {
+        date: document.getElementById('date').value,
+        type: document.getElementById('mealType').value,
+        description: document.getElementById('description').value,
+        calories: parseInt(document.getElementById('calories').value) || 0,
+        carbs: parseInt(document.getElementById('carbs').value) || 0,
+        protein: parseInt(document.getElementById('protein').value) || 0,
+        fat: parseInt(document.getElementById('fat').value) || 0,
+      };
+      meals.push(meal);
+      saveMeals();
+    }
+
+    function renderTable() {
+      const tbody = document.querySelector('#mealsTable tbody');
+      tbody.innerHTML = '';
+      meals.forEach(m => {
+        const row = `<tr><td>${m.date}</td><td>${m.type}</td><td>${m.description}</td><td>${m.calories}</td><td>${m.carbs}</td><td>${m.protein}</td><td>${m.fat}</td></tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+    function exportData() {
+      const blob = new Blob([JSON.stringify({ meals, notes: document.getElementById('dailyNotes').value })], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'dieta_longo.json';
+      link.click();
+    }
+
+    function importData(event) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const data = JSON.parse(reader.result);
+        localStorage.setItem('meals', JSON.stringify(data.meals || []));
+        localStorage.setItem('notes', data.notes || '');
+        location.reload();
+      };
+      reader.readAsText(event.target.files[0]);
+    }
+
+    function suggestMenu() {
+      const menu = [
+        'Lunedì: Porridge con frutta + zuppa di legumi + verdure al vapore',
+        'Martedì: Frutta secca + quinoa con verdure + insalata mista',
+        'Mercoledì: Tisana + riso integrale + verdure stufate',
+        'Giovedì: Tofu alla piastra + patate + cavolo',
+        'Venerdì: Minestrone + hummus + carote crude',
+        'Sabato: Smoothie vegetale + cereali integrali + broccoli',
+        'Domenica: Frutta + vellutata di verdure + pane integrale'
+      ];
+      const list = document.getElementById('weeklyMenu');
+      list.innerHTML = '';
+      menu.forEach(m => {
+        const li = document.createElement('li');
+        li.textContent = m;
+        list.appendChild(li);
+      });
+    }
+
+    function renderChart() {
+      const totals = meals.reduce((acc, m) => {
+        acc.carbs += m.carbs;
+        acc.protein += m.protein;
+        acc.fat += m.fat;
+        return acc;
+      }, {carbs: 0, protein: 0, fat: 0});
+
+      const ctx = document.getElementById('macroChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Carboidrati', 'Proteine', 'Grassi'],
+          datasets: [{
+            label: 'Totali settimana',
+            data: [totals.carbs, totals.protein, totals.fat],
+            backgroundColor: ['#007bff', '#28a745', '#ffc107']
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+    }
+
+    renderTable();
+    suggestMenu();
+    renderChart();
+  </script>
+</body>
+</html>

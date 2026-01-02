@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dieta — Piatti e Menu</title>
+  <link rel="stylesheet" href="../stile.css" />
+  <style>
+    .grid{display:grid; gap:12px; grid-template-columns: 1fr 1fr;}
+    @media (max-width:700px){ .grid{grid-template-columns:1fr;} }
+    .card{background:#fff; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,.06); padding:14px;}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:end;}
+    .row > *{flex:1 1 160px;}
+    label{display:block; font-weight:700; margin:6px 0 4px;}
+    input, select, textarea{width:100%; padding:10px; border:1px solid #d0d7de; border-radius:10px; background:#fff;}
+    textarea{min-height:90px; resize:vertical;}
+    .btn{display:inline-block; padding:10px 14px; border-radius:999px; border:0; cursor:pointer; font-weight:700;}
+    .btn.primary{background:#007bff; color:#fff;}
+    .btn.ghost{background:#eef2ff;}
+    .btn.danger{background:#ffe8e8;}
+    .list{display:flex; flex-direction:column; gap:10px; margin-top:12px;}
+    .item{border:1px solid #e6e8eb; border-radius:12px; padding:12px;}
+    .item h3{margin:0 0 6px; font-size:1.05rem;}
+    .meta{font-size:.92rem; opacity:.9; margin:0 0 8px;}
+    .actions{display:flex; gap:8px; flex-wrap:wrap;}
+    .pill{display:inline-block; padding:3px 10px; border-radius:999px; background:#f1f3f5; font-size:.85rem;}
+    .hint{opacity:.9; font-size:.95rem;}
+  </style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="../index.html">🏠 Home</a>
+    <a href="../finanziaria/index.html">Finanziaria</a>
+    <a class="active" href="index.html">Dieta</a>
+    <a href="../task/index.html">Task</a>
+    <a href="../forza/index.html">Forza</a>
+    <a href="../preposto/index.html">Preposto</a>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a>
+    <span class="sep">›</span>
+    <a href="index.html">Dieta</a>
+    <span class="sep">›</span>
+    <span>Piatti e Menu</span>
+  </div>
+
+  <h1>Piatti e Menu</h1>
+  <p class="hint" style="max-width:900px;margin:0 auto 16px;">
+    Qui puoi salvare <strong>piatti</strong> e <strong>menu</strong> per colazione, pranzo, cena e spuntini. Tutto è modificabile e resta salvato nel browser.
+  </p>
+
+  <div class="section" style="max-width:950px;">
+    <div class="grid">
+      <div class="card">
+        <h2 style="margin-top:0;">Aggiungi piatto / menu</h2>
+        <div class="row">
+          <div>
+            <label for="tipo">Tipo</label>
+            <select id="tipo">
+              <option value="Piatto">Piatto</option>
+              <option value="Menu">Menu</option>
+            </select>
+          </div>
+          <div>
+            <label for="categoria">Categoria</label>
+            <select id="categoria">
+              <option>Colazione</option>
+              <option>Pranzo</option>
+              <option>Cena</option>
+              <option>Spuntino</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="titolo">Nome</label>
+        <input id="titolo" placeholder="Es. Insalata di ceci e verdure" />
+
+        <label for="ingredienti">Ingredienti (facoltativo)</label>
+        <textarea id="ingredienti" placeholder="Es. ceci, pomodori, cetrioli, olio EVO, limone..."></textarea>
+
+        <label for="note">Note (facoltativo)</label>
+        <textarea id="note" placeholder="Es. alternativa: fagioli al posto dei ceci..."></textarea>
+
+        <div class="row" style="margin-top:10px;">
+          <button class="btn primary" id="salvaBtn">Salva</button>
+          <button class="btn ghost" id="resetBtn" type="button">Pulisci</button>
+        </div>
+        <p class="hint" style="margin:10px 0 0;">Suggerimento: salva 10–15 piatti “sicuri” e poi componi i menu in 30 secondi.</p>
+      </div>
+
+      <div class="card">
+        <h2 style="margin-top:0;">Filtri</h2>
+        <label for="filtroCategoria">Categoria</label>
+        <select id="filtroCategoria">
+          <option value="Tutte">Tutte</option>
+          <option>Colazione</option>
+          <option>Pranzo</option>
+          <option>Cena</option>
+          <option>Spuntino</option>
+        </select>
+
+        <label for="filtroTipo">Tipo</label>
+        <select id="filtroTipo">
+          <option value="Tutti">Tutti</option>
+          <option value="Piatto">Piatto</option>
+          <option value="Menu">Menu</option>
+        </select>
+
+        <label for="cerca">Cerca</label>
+        <input id="cerca" placeholder="Cerca per nome o ingredienti..." />
+
+        <div class="row" style="margin-top:10px;">
+          <button class="btn ghost" id="exportBtn" type="button">Esporta JSON</button>
+          <button class="btn ghost" id="importBtn" type="button">Importa JSON</button>
+        </div>
+        <input id="importFile" type="file" accept="application/json" style="display:none;" />
+        <p class="hint" style="margin:10px 0 0;">Esportazione utile per backup o cambio PC.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:12px;">
+      <h2 style="margin-top:0;">Archivio</h2>
+      <div id="lista" class="list"></div>
+      <p id="vuoto" class="hint" style="display:none;">Nessun elemento. Aggiungi il primo piatto.</p>
+    </div>
+  </div>
+
+<script>
+(function(){
+  const KEY = "dieta_piatti_v1";
+
+  const $ = (id) => document.getElementById(id);
+
+  const tipo = $("tipo");
+  const categoria = $("categoria");
+  const titolo = $("titolo");
+  const ingredienti = $("ingredienti");
+  const note = $("note");
+
+  const filtroCategoria = $("filtroCategoria");
+  const filtroTipo = $("filtroTipo");
+  const cerca = $("cerca");
+
+  const lista = $("lista");
+  const vuoto = $("vuoto");
+
+  let editingId = null;
+
+  function uid(){ return "id_" + Math.random().toString(16).slice(2) + Date.now().toString(16); }
+
+  function load(){
+    try{ return JSON.parse(localStorage.getItem(KEY) || "[]"); }
+    catch(e){ return []; }
+  }
+
+  function save(data){
+    localStorage.setItem(KEY, JSON.stringify(data));
+  }
+
+  function defaultsIfEmpty(){
+    const data = load();
+    if(data.length) return;
+    const seed = [
+      {id:uid(), tipo:"Piatto", categoria:"Colazione", titolo:"Porridge d’avena (senza semi)", ingredienti:"avena, bevanda vegetale o acqua, frutta fresca, noci/mandorle", note:"dolcifica con cannella o frutta", ts:Date.now()},
+      {id:uid(), tipo:"Piatto", categoria:"Pranzo", titolo:"Insalata di legumi e verdure", ingredienti:"ceci/lenticchie/fagioli, verdure miste, olio EVO, limone", note:"prepara 2 porzioni", ts:Date.now()},
+      {id:uid(), tipo:"Piatto", categoria:"Cena", titolo:"Verdure + proteina (pesce/uova/legumi)", ingredienti:"verdure cotte o crude, olio EVO, proteina scelta", note:"semplice e ripetibile", ts:Date.now()},
+      {id:uid(), tipo:"Menu", categoria:"Pranzo", titolo:"Menu rapido (10 min)", ingredienti:"legumi già cotti + insalata + olio EVO + frutta", note:"perfetto quando hai poco tempo", ts:Date.now()}
+    ];
+    save(seed);
+  }
+
+  function matches(item){
+    const fc = filtroCategoria.value;
+    const ft = filtroTipo.value;
+    const q = (cerca.value || "").trim().toLowerCase();
+
+    if(fc !== "Tutte" && item.categoria !== fc) return false;
+    if(ft !== "Tutti" && item.tipo !== ft) return false;
+
+    if(q){
+      const hay = (item.titolo + " " + (item.ingredienti||"") + " " + (item.note||"")).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  }
+
+  function render(){
+    const data = load().filter(matches);
+    lista.innerHTML = "";
+    vuoto.style.display = data.length ? "none" : "block";
+
+    data
+      .sort((a,b)=> (b.ts||0)-(a.ts||0))
+      .forEach(item=>{
+        const el = document.createElement("div");
+        el.className = "item";
+        el.innerHTML = `
+          <div style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+            <div>
+              <h3>${escapeHtml(item.titolo)}</h3>
+              <p class="meta">
+                <span class="pill">${escapeHtml(item.tipo)}</span>
+                <span class="pill">${escapeHtml(item.categoria)}</span>
+              </p>
+            </div>
+            <div class="actions">
+              <button class="btn ghost" data-act="edit" data-id="${item.id}">Modifica</button>
+              <button class="btn danger" data-act="del" data-id="${item.id}">Elimina</button>
+            </div>
+          </div>
+          ${item.ingredienti ? `<p><strong>Ingredienti:</strong> ${escapeHtml(item.ingredienti)}</p>` : ""}
+          ${item.note ? `<p><strong>Note:</strong> ${escapeHtml(item.note)}</p>` : ""}
+        `;
+        lista.appendChild(el);
+      });
+  }
+
+  function resetForm(){
+    editingId = null;
+    $("salvaBtn").textContent = "Salva";
+    tipo.value = "Piatto";
+    categoria.value = "Colazione";
+    titolo.value = "";
+    ingredienti.value = "";
+    note.value = "";
+    titolo.focus();
+  }
+
+  function upsert(){
+    const t = (titolo.value || "").trim();
+    if(!t){ alert("Inserisci un nome."); titolo.focus(); return; }
+
+    const data = load();
+    if(editingId){
+      const i = data.findIndex(x=>x.id===editingId);
+      if(i>=0){
+        data[i] = {...data[i], tipo:tipo.value, categoria:categoria.value, titolo:t, ingredienti:ingredienti.value.trim(), note:note.value.trim(), ts:Date.now()};
+      }
+    }else{
+      data.push({id:uid(), tipo:tipo.value, categoria:categoria.value, titolo:t, ingredienti:ingredienti.value.trim(), note:note.value.trim(), ts:Date.now()});
+    }
+    save(data);
+    resetForm();
+    render();
+  }
+
+  function edit(id){
+    const data = load();
+    const item = data.find(x=>x.id===id);
+    if(!item) return;
+    editingId = id;
+    $("salvaBtn").textContent = "Salva modifiche";
+    tipo.value = item.tipo || "Piatto";
+    categoria.value = item.categoria || "Colazione";
+    titolo.value = item.titolo || "";
+    ingredienti.value = item.ingredienti || "";
+    note.value = item.note || "";
+    titolo.focus();
+  }
+
+  function del(id){
+    if(!confirm("Eliminare questo elemento?")) return;
+    const data = load().filter(x=>x.id!==id);
+    save(data);
+    render();
+  }
+
+  function escapeHtml(str){
+    return (str||"").replace(/[&<>"']/g, (c)=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
+  }
+
+  // events
+  $("salvaBtn").addEventListener("click", upsert);
+  $("resetBtn").addEventListener("click", resetForm);
+
+  [filtroCategoria, filtroTipo, cerca].forEach(el=> el.addEventListener("input", render));
+
+  lista.addEventListener("click", (e)=>{
+    const btn = e.target.closest("button");
+    if(!btn) return;
+    const act = btn.getAttribute("data-act");
+    const id = btn.getAttribute("data-id");
+    if(act==="edit") edit(id);
+    if(act==="del") del(id);
+  });
+
+  $("exportBtn").addEventListener("click", ()=>{
+    const data = load();
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:"application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "piatti-menu.json";
+    a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+  });
+
+  $("importBtn").addEventListener("click", ()=> $("importFile").click());
+
+  $("importFile").addEventListener("change", async (e)=>{
+    const file = e.target.files && e.target.files[0];
+    if(!file) return;
+    try{
+      const text = await file.text();
+      const incoming = JSON.parse(text);
+      if(!Array.isArray(incoming)) throw new Error("Formato non valido");
+      // normalizza
+      const normalized = incoming.map(x=>({
+        id: x.id || uid(),
+        tipo: x.tipo || "Piatto",
+        categoria: x.categoria || "Pranzo",
+        titolo: x.titolo || "Senza nome",
+        ingredienti: x.ingredienti || "",
+        note: x.note || "",
+        ts: x.ts || Date.now()
+      }));
+      save(normalized);
+      resetForm();
+      render();
+      alert("Importazione completata.");
+    }catch(err){
+      alert("Impossibile importare il file.");
+    }finally{
+      e.target.value = "";
+    }
+  });
+
+  // init
+  defaultsIfEmpty();
+  render();
+})();
+</script>
+</body>
+</html>

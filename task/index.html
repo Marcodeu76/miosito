@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Task</title>
+<link href="../stile.css" rel="stylesheet"/>
+<style>
+/* --- UI refresh (keeps existing stile.css; this only improves layout) --- */
+:root{
+  --bg:#f7f8fb; --card:#ffffff; --text:#111827; --muted:#6b7280; --border:#e5e7eb;
+  --shadow:0 8px 24px rgba(0,0,0,.06);
+  --radius:14px;
+}
+body{background:var(--bg); color:var(--text);}
+.section{max-width:1100px; margin:0 auto; padding:22px;}
+.page-header{display:flex; flex-wrap:wrap; gap:14px; align-items:flex-end; justify-content:space-between; margin:10px 0 16px;}
+.page-header h1{margin:0; font-size:28px; line-height:1.15;}
+.sub{color:var(--muted); margin:4px 0 0; max-width:850px;}
+.top-nav{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 18px;}
+.top-nav a{display:inline-block; padding:9px 12px; background:var(--card); border:1px solid var(--border); border-radius:999px; text-decoration:none;}
+.top-nav a:hover{box-shadow:var(--shadow);}
+.grid{display:grid; gap:14px;}
+.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr));}
+.grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr));}
+@media (max-width:900px){.grid.cols-3,.grid.cols-2{grid-template-columns:1fr;}}
+.card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px;}
+.card h2,.card h3{margin-top:0;}
+.badge{display:inline-block; padding:5px 10px; border:1px solid var(--border); border-radius:999px; color:var(--muted); background:#fff;}
+.kpi{display:flex; flex-direction:column; gap:6px;}
+.kpi .label{color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.04em;}
+.kpi .value{font-size:18px; font-weight:700;}
+.callout{border-left:5px solid #111827; background:linear-gradient(180deg,#fff, #fbfbfd);}
+.callout p{margin:0;}
+hr{border:0; border-top:1px solid var(--border); margin:18px 0;}
+.timeline{display:grid; gap:14px;}
+.step{display:grid; grid-template-columns:150px 1fr; gap:12px; align-items:start;}
+@media (max-width:700px){.step{grid-template-columns:1fr;}}
+.step .when{font-weight:700; color:#111827;}
+.step .box{border:1px solid var(--border); border-radius:var(--radius); padding:12px; background:#fff;}
+.step ul{margin:8px 0 0; padding-left:18px;}
+.checklist ul{list-style:none; padding-left:0; margin:0;}
+.checklist li{display:flex; gap:10px; align-items:flex-start; padding:10px 0; border-bottom:1px dashed var(--border);}
+.checklist li:last-child{border-bottom:0;}
+.checklist input{margin-top:3px;}
+details{background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:12px;}
+details + details{margin-top:10px;}
+summary{cursor:pointer; font-weight:700;}
+.table{width:100%; border-collapse:collapse; font-size:14px;}
+.table th,.table td{border:1px solid var(--border); padding:10px; vertical-align:top;}
+.table th{background:#fafafa; text-align:left;}
+.small{color:var(--muted); font-size:13px;}
+
+/* Task UI integration */
+.card form, .card .task-container{margin-top:10px;}
+
+/* Global menu */
+.global-menu-wrap{position:sticky; top:0; z-index:50; background:var(--bg); padding:10px 0; margin:0 0 12px;}
+.global-menu{max-width:1100px; margin:0 auto; padding:0 22px; display:flex; flex-wrap:wrap; gap:10px;}
+.global-menu a{display:inline-block; padding:9px 12px; background:var(--card); border:1px solid var(--border); border-radius:999px; text-decoration:none;}
+.global-menu a:hover{box-shadow:var(--shadow);}
+.global-menu .title{display:flex; align-items:center; gap:10px; margin-right:6px;}
+.global-menu .title span{font-weight:800;}
+</style></head>
+<body><nav class="top-nav"><a href="../index.html">🏠 Home</a><a href="../finanziaria/index.html">💰 Finanziaria</a><a href="../dieta/index.html">🥗 Dieta</a><a href="../task/index.html">✅ Task</a><a href="../forza/index.html">💪 Forza</a><a href="../preposto/index.html">🚛 Preposto</a></nav><div class="breadcrumb"><a href="../index.html">Home</a><span class="sep">›</span><span>Task</span></div><div class="home-button">
+<a href="../index.html">🏠 Torna alla Home</a>
+</div><div class="global-menu-wrap"><div class="global-menu"><div class="title"><span>Ecosped</span><span class="small">Piano operativo</span></div><a href="#task-manager">Task</a><a href="#sintesi">Sintesi</a><a href="#kpi">KPI</a><a href="#roadmap">Roadmap 36 mesi</a><a href="#checklist">Checklist</a><a href="#uscita">Vendita 3–5 anni</a><a href="#valore">Driver di valore</a></div></div>
+<h1>Lavora alla tua task più importante</h1>
+<div class="section"><div class="card" id="task-manager"><h2>Task Manager</h2><p class="small">Gestione attività operative. Questa sezione resta collegata al resto della pagina: usa le checklist e pianifica qui le azioni.</p><h2>Infografica: Piano d'Azione per Crescere Ecosped S.r.l. fino a 1 Milione di Euro</h2><h3>1. Ottimizzazione Finanziaria 📊</h3><ul>
+<li>Riduzione dei debiti bancari e fornitori</li>
+<li>Miglior gestione del cash flow e recupero crediti</li>
+<li>Analisi e riduzione dei costi superflui</li>
+</ul><h3>2. Incremento del Fatturato 🚀</h3><ul>
+<li>Acquisizione nuovi clienti e fidelizzazione</li>
+<li>Espansione dei servizi logistici e magazzinaggio</li>
+<li>Ottimizzazione dei prezzi per aumentare la marginalità</li>
+</ul><h3>3. Efficienza Operativa ⚙️</h3><ul>
+<li>Digitalizzazione e automazione dei processi</li>
+<li>Formazione del personale per aumentare la produttività</li>
+<li>Controllo qualità per migliorare la soddisfazione clienti</li>
+</ul><h3>4. Valorizzazione dell'Azienda per la Vendita 💰</h3><ul>
+<li>Aumento del patrimonio netto per attrarre investitori</li>
+<li>Potenziamento del brand e visibilità online</li>
+<li>Presentazione di bilanci solidi e trasparenti</li>
+</ul><h3>5. Networking e Investitori 🤝</h3><ul>
+<li>Partecipazione a fiere ed eventi di settore</li>
+<li>Creazione di un dossier aziendale per potenziali acquirenti</li>
+<li>Studio di opzioni di vendita graduale</li>
+</ul><h2>Routine Giornaliera per il Successo 🕒</h2><h3>Mattina ☀️</h3><ul>
+<li>Controllo finanziario (cash flow, incassi, pagamenti)</li>
+<li>Analisi ordini e stato avanzamento lavori</li>
+</ul><h3>Pomeriggio 📈</h3><ul>
+<li>Attività di vendita e acquisizione clienti</li>
+<li>Ottimizzazione operativa e gestione del personale</li>
+</ul><h3>Sera 🌙</h3><ul>
+<li>Pianificazione strategica e formazione</li>
+<li>Networking e contatti con investitori</li>
+</ul><p><strong>📌 Obiettivo Finale:</strong> Portare Ecosped a un valore di 1 milione di euro per poterla vendere e dedicarsi a progetti umanitari e di volontariato.</p><p><strong>🔥 Segui questo piano con disciplina e determinazione per accelerare il successo!</strong></p><h2>🌙 Routine Serale: Pianificazione Strategica e Networking</h2><h3>1. Pianificazione Strategica e Formazione (19:00 - 20:30)</h3><ul>
+<li><strong>Revisione della Giornata</strong>
+<ul>
+<li>Cosa ha funzionato oggi? Quali attività hanno portato risultati?</li>
+<li>Dove ci sono state difficoltà o perdite di tempo?</li>
+<li>Analisi delle metriche aziendali chiave: ricavi, clienti acquisiti, efficienza operativa.</li>
+</ul>
+</li>
+<li><strong>Pianificazione per il Giorno Successivo</strong>
+<ul>
+<li>Definizione degli obiettivi prioritari per il giorno dopo.</li>
+<li>Assegnazione di attività al team (se applicabile) per evitare perdite di tempo.</li>
+<li>Pianificazione di contatti con nuovi clienti o investitori.</li>
+</ul>
+</li>
+<li><strong>Formazione e Crescita Personale</strong>
+<ul>
+<li>Lettura di articoli o libri su business, marketing, investimenti.</li>
+<li>Aggiornamento su tendenze logistiche e digitalizzazione.</li>
+<li>Corsi online su gestione aziendale, leadership, automazione e crescita d’impresa.</li>
+</ul>
+</li>
+</ul><h3>2. Networking e Contatti con Investitori (20:30 - 22:00)</h3><ul>
+<li><strong>Creazione e Rafforzamento della Rete</strong>
+<ul>
+<li>Contatta nuovi potenziali acquirenti o investitori tramite LinkedIn, email o eventi.</li>
+<li>Rafforza i rapporti con fornitori e partner strategici.</li>
+<li>Partecipa a gruppi online di business e logistica.</li>
+</ul>
+</li>
+<li><strong>Preparazione alla Vendita dell’Azienda</strong>
+<ul>
+<li>Cura la documentazione finanziaria e i report di crescita.</li>
+<li>Lavora sul valore percepito dell’azienda (brand, risultati, stabilità).</li>
+<li>Studia case study di aziende simili vendute con successo.</li>
+</ul>
+</li>
+<li><strong>Eventi e Networking Virtuale</strong>
+<ul>
+<li>Webinar e incontri online per connetterti con investitori e mentor.</li>
+<li>Pianificazione di meeting con potenziali compratori.</li>
+<li>Collaborazioni e sinergie con altre aziende per rafforzare il posizionamento di Ecosped.</li>
+</ul>
+</li>
+</ul><h3>💡 Strumenti e Risorse per Ottimizzare la Routine</h3><ul>
+<li><strong>📊 Trello / Notion</strong> → per la pianificazione strategica.</li>
+<li><strong>📩 LinkedIn / Email Outreach</strong> → per contattare investitori e partner.</li>
+<li><strong>🎙 Podcast su business e logistica</strong> → per aggiornarti mentre ti rilassi.</li>
+<li><strong>📚 Libri consigliati:</strong>
+<ul>
+<li><em>The Lean Startup</em> di Eric Ries (Crescita aziendale)</li>
+<li><em>Never Split the Difference</em> di Chris Voss (Tecniche di negoziazione)</li>
+<li><em>Built to Sell</em> di John Warrillow (Come costruire un'azienda vendibile)</li>
+</ul>
+</li>
+</ul><p><strong>🔹 Con questa routine serale:</strong></p><ul>
+<li>✅ Rafforzi la visione strategica di Ecosped.</li>
+<li>✅ Crei connessioni con investitori e compratori.</li>
+<li>✅ Prepari il business alla crescita e alla vendita.</li>
+</ul></div><hr/><div class="plan-wrap"><div class="page-header"><div><h1>Piano di crescita e uscita — Ecosped</h1><p class="sub">Obiettivo: aumentare margini e controllo (cassa, processi, clienti) per arrivare a una valutazione fino a € 1.000.000 e rendere l’azienda vendibile in 3–5 anni.</p></div><div><span class="badge">Orizzonte: 36 mesi (valore)</span> <span class="badge">Uscita: 3–5 anni (vendita)</span></div></div><div class="grid cols-3" id="sintesi"><div class="card kpi"><div class="label">Target economico</div><div class="value">Utile netto stabile &gt; € 120.000</div><p class="small">È la soglia che, nel vostro settore, rende credibile un multiplo più alto e sostiene una valutazione importante.</p></div><div class="card kpi"><div class="label">Target finanziario</div><div class="value">DSO ≤ 45 gg e scaduto basso</div><p class="small">La banca e gli acquirenti pagano di più quando l’incasso è sotto controllo e il rischio insoluti è disciplinato.</p></div><div class="card kpi"><div class="label">Target organizzativo</div><div class="value">Processi + deleghe documentate</div><p class="small">Se l’azienda “funziona senza i soci”, diventa comprabile: sale il valore e scendono i rischi in due diligence.</p></div></div><div class="card" id="kpi"><h2>KPI da monitorare ogni mese (cruscotto)</h2><p class="small">Consiglio: aggiornamento fisso ogni lunedì (30 minuti). Se un KPI peggiora per 2 settimane, si interviene subito.</p><table class="table"><thead><tr><th>KPI</th><th>Target</th><th>Come calcolarlo (pratico)</th><th>Azione quando fuori target</th></tr></thead><tbody><tr><td>Margine per cliente</td><td>≥ 10–12% su clienti chiave</td><td>Ricavi cliente – costi diretti (mezzi, subfornitori, extra) / ricavi</td><td>Aumentare prezzo o ridurre extra; se non migliora, ridurre volumi/chiudere tratta</td></tr><tr><td>DSO (giorni incasso)</td><td>≤ 45 giorni</td><td>(Crediti clienti / ricavi mensili) × 30</td><td>Reminder + telefonata; blocco operativo sopra soglia; anticipo/acconto su clienti critici</td></tr><tr><td>% scaduto &gt; 60 gg</td><td>&lt; 5% dei crediti</td><td>Totale scaduto oltre 60 / crediti totali</td><td>Piano rientro scritto; sospensione; eventuale recupero crediti</td></tr><tr><td>Servizi esterni / ricavi</td><td>in calo o stabile</td><td>Costi servizi / ricavi</td><td>Rinegoziazioni; ridurre urgenze; standardizzare preventivi extra</td></tr><tr><td>Km a vuoto</td><td>in diminuzione continua</td><td>Km senza carico / km totali</td><td>Ottimizzare tratte; partnership; pianificazione carichi di ritorno</td></tr></tbody></table></div><div class="card" id="roadmap"><h2>Roadmap 36 mesi per arrivare a 1 milione di valore</h2><div class="card callout"><p>Regola d’oro: prima si mette in ordine margine e cassa, poi si scala. Crescere senza controllo porta fatturato, ma non valore.</p></div><div class="timeline"><div class="step"><div class="when">0–90 giorni</div><div class="box"><h3>Fase 1 — Margini e cassa (impatto rapido)</h3><details><summary>Prezzi e mix clienti</summary><ul><li>Segmentare clienti A/B/C per marginalità e rischio (pagamenti, extra, urgenze).</li><li>Aumento selettivo 1–3% sui clienti C e sulle tratte in stress operativo.</li><li>Inserire sempre ‘minimo garantito’ e tariffa extra (attese, consegne multiple, sponde, ADR, urgenze).</li></ul></details><details><summary>Incassi (DSO)</summary><ul><li>Nuove regole: 30 gg per A/B; 15 gg o acconto per C; sospensione automatica oltre 60 gg.</li><li>Routine settimanale: sollecito 1 (mail), sollecito 2 (telefono), blocco operativo, piano rientro scritto.</li><li>Ridurre del 10% i crediti clienti: libera cassa e abbassa rischio, senza chiedere nuovi fidi.</li></ul></details><details><summary>Servizi esterni e urgenze</summary><ul><li>Rinegoziare i primi 3 fornitori per costo: obiettivo -3% medio.</li><li>Tagliare urgenze non remunerate: se è urgente, si paga. Se non paga, non è urgente.</li><li>Checklist preventivo: extra sempre quotati prima, mai dopo.</li></ul></details></div></div><div class="step"><div class="when">3–12 mesi</div><div class="box"><h3>Fase 2 — Scalare senza caos (processi e controllo)</h3><details><summary>Controllo di gestione</summary><ul><li>Contabilità per centri: margine per cliente e per tratta (non solo totale azienda).</li><li>Budget trimestrale e consuntivo: 5 voci chiave (servizi, personale, leasing, carburante, extra).</li><li>Regola: se cresce il fatturato ma non cresce l’utile, si blocca la crescita finché non si capisce il perché.</li></ul></details><details><summary>Processi operativi (SOP)</summary><ul><li>Standard: preventivo → presa in carico → tracciamento → prova consegna → fatturazione → incasso.</li><li>Ridurre ‘errori costosi’: mancate prove di consegna, extra non addebitati, documenti incompleti.</li><li>Obiettivo: fatturare entro 48 ore dalla consegna (accorcia l’incasso).</li></ul></details><details><summary>Vendite e canali</summary><ul><li>2 canali stabili: outreach aziende + partnership con spedizionieri/retisti.</li><li>Obiettivo: 5 nuovi clienti ‘buoni’/trimestre (margine e pagamento ok).</li><li>No acquisizione ‘a prezzo’: meglio meno clienti ma con margine e disciplina.</li></ul></details></div></div><div class="step"><div class="when">12–36 mesi</div><div class="box"><h3>Fase 3 — Azienda vendibile (multiplo più alto)</h3><details><summary>Deleghe e persone</summary><ul><li>Ruoli: responsabile operativo (giornaliero), referente commerciale, referente amministrazione/incassi.</li><li>Check giornaliera: consegne, extra, reclami, scaduti, priorità del giorno.</li><li>Ridurre dipendenza dai soci: l’acquirente compra un’organizzazione, non due persone.</li></ul></details><details><summary>Portafoglio clienti</summary><ul><li>Nessun cliente &gt; 20% del fatturato; contratti quadro dove possibile.</li><li>Introduzione ricavi ricorrenti (magazzino/logistica/handling) per stabilizzare.</li><li>Misurare qualità: puntualità, reclami, costi extra. Qualità = prezzo migliore.</li></ul></details><details><summary>Documentazione per due diligence</summary><ul><li>Data room aggiornata: bilanci, contratti, leasing, mezzi, assicurazioni, contenziosi.</li><li>Report mensile standard (sempre uguale) archiviato: rende credibile la storia dell’azienda.</li><li>Ridurre rischi ‘nascosti’: clienti problematici, extra non formalizzati, dipendenze operative.</li></ul></details></div></div></div></div><div class="card checklist" id="checklist"><h2>Checklist azioni (prime 6 settimane)</h2><p class="small">Suggerimento: 1 attività al giorno. Ogni voce chiusa deve avere un ‘output’ (file, email inviata, procedura scritta, lista clienti aggiornata).</p><div class="card"><h3>Settimana 1–2: dati e regole</h3><ul><li><input type="checkbox"/> Estrarre elenco clienti con ricavi, costi diretti, margine e giorni incasso (ultimi 12 mesi).</li><li><input type="checkbox"/> Classificare clienti A/B/C (margine + rischio pagamento + extra).</li><li><input type="checkbox"/> Definire e comunicare le regole pagamenti (30 gg A/B; 15 gg o acconto C; stop oltre 60 gg).</li><li><input type="checkbox"/> Standard preventivo: minimo garantito + tabella extra costi (attese, urgenze, consegne multiple, sponde).</li></ul></div><div class="card"><h3>Settimana 3–4: margini e fornitori</h3><ul><li><input type="checkbox"/> Preparare mini-listino revisionato e applicare l’aumento selettivo ai clienti C.</li><li><input type="checkbox"/> Rinegoziare i 3 fornitori più pesanti (target -3% medio) e fissare KPI qualità/tempi.</li><li><input type="checkbox"/> Definire regola urgenze: ‘se è urgente, si paga’ (tariffa urgenza).</li><li><input type="checkbox"/> Creare una lista ‘tratte in perdita’ e decidere: aumento, riprogettazione, stop.</li></ul></div><div class="card"><h3>Settimana 5–6: controllo e crescita commerciale</h3><ul><li><input type="checkbox"/> Creare ‘Cruscotto Lunedì’ (KPI + note) e fissare riunione settimanale da 20 minuti.</li><li><input type="checkbox"/> Impostare routine incassi (2 solleciti + chiamata + blocco operativo + piano rientro).</li><li><input type="checkbox"/> Definire 10 aziende target per magazzino/logistica e inviare il primo contatto (mail/LinkedIn).</li><li><input type="checkbox"/> Scrivere 5 procedure (SOP): preventivo, presa in carico, gestione extra, fatturazione, recupero crediti.</li></ul></div></div><div class="card" id="uscita"><h2>Strategia di uscita (vendita) 3–5 anni</h2><p class="small">Obiettivo: arrivare con numeri leggibili, contratti e processi replicabili, rischio basso. È ciò che aumenta il multiplo e riduce gli ‘sconti’ in trattativa.</p><details open="True"><summary>0–12 mesi — Preparazione</summary><ul><li>Creare la Data Room (indice + cartelle): bilanci, contratti, leasing, mezzi, assicurazioni, contenziosi, autorizzazioni.</li><li>Formalizzare condizioni: prezzi, extra, SLA, termini pagamento, penali e gestione reclami.</li><li>Report mensile standard 1 pagina (KPI + note) archiviato: costruisce credibilità.</li><li>Riduzione dipendenza: deleghe scritte, procedure, responsabilità chiare.</li></ul></details><details open="True"><summary>12–36 mesi — Crescita “pulita”</summary><ul><li>Aumentare utile con leve ‘sicure’: prezzi, mix clienti, efficienza, riduzione extra-costi.</li><li>Stabilizzare ricavi con contratti quadro e clienti con pagamento regolare.</li><li>Sviluppare ricavi ricorrenti (magazzino/logistica/handling) per rendere l’azienda più appetibile.</li></ul></details><details open="True"><summary>36–60 mesi — Processo di vendita</summary><ul><li>Selezionare acquirenti: competitor, operatori logistici, piccoli fondi, aggregatori.</li><li>Preparare Teaser + Information Memorandum (breve e completo).</li><li>Fare una vendor due diligence leggera: emerge prima ciò che potrebbe abbassare il prezzo.</li><li>Creare competizione tra 3–5 interessati: alza prezzo e riduce richieste invasive.</li></ul></details></div><div class="card" id="valore"><h2>Cosa spinge davvero il valore verso € 1.000.000</h2><p class="small">Questi sono i “driver” che un acquirente guarda per decidere il prezzo (e quanto sconto chiedere).</p><div class="grid cols-2"><div class="card"><h3>Profittabilità stabile</h3><ul><li>Utile netto stabile &gt; € 120.000 (oppure EBITDA &gt; € 150.000) per almeno 12 mesi.</li><li>Margine per cliente misurato e difeso: niente volumi in perdita.</li><li>Extra sempre fatturati: riduzione delle ‘perdite invisibili’.</li></ul></div><div class="card"><h3>Rischio sotto controllo</h3><ul><li>Incassi disciplinati: DSO ≤ 45 giorni e scaduto basso.</li><li>Nessun cliente troppo concentrato (idealmente &lt; 20%).</li><li>Contratti e condizioni scritte: meno contestazioni e più prevedibilità.</li></ul></div><div class="card"><h3>Organizzazione comprabile</h3><ul><li>Ruoli e deleghe: operativo e amministrazione non dipendono dai soci.</li><li>Procedure (SOP) e reportistica costante: due diligence semplice.</li><li>Qualità misurata (puntualità, reclami, extra-costi) e miglioramento continuo.</li></ul></div><div class="card"><h3>Ricavi ricorrenti e posizionamento</h3><ul><li>Magazzino/logistica/handling come ricavo ripetitivo e difendibile.</li><li>Partnership e rete commerciale stabile (lead costanti).</li><li>Brand e presenza online orientata a richieste (preventivi qualificati).</li></ul></div></div><div class="card callout"><h3>Azioni nei prossimi 30 giorni (per essere già “vendibili”)</h3><ul><li>Creare cartella ‘Data Room’ con indice e documenti base (anche vuota, poi si riempie).</li><li>Scrivere 5 procedure: preventivo, presa in carico, gestione extra, fatturazione, recupero crediti.</li><li>Produrre un report mensile 1 pagina (KPI + note) e conservarlo ogni mese.</li><li>Definire ‘politica clienti’: chi accettiamo, chi no, e perché (margine e rischio).</li></ul></div></div></div></div>
+</body>
+</html>
