@@ -1,6 +1,6 @@
 @echo off
 REM === CONFIGURAZIONE ===
-SET PROJECT_DIR=D:\mio sito
+SET PROJECT_DIR=C:\mio sito
 SET COMMIT_MSG=Aggiornamento sito
 SET BRANCH=main
 
