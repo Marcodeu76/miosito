@@ -6,7 +6,7 @@ SET "PROJECT_DIR=C:\Users\39347\Desktop\miosito"
 SET "COMMIT_MSG=Aggiornamento sito"
 SET "BRANCH=main"
 REM Facoltativo: imposta l'URL del repository GitHub (lascia vuoto se hai gia' origin configurato)
-SET "ORIGIN_URL=https://github.com/Marcodeu76/miosito.git"
+SET "ORIGIN_URL="
 
 echo.
 echo Spostamento nella cartella del progetto: "%PROJECT_DIR%"
