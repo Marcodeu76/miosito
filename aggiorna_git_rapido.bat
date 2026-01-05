@@ -6,7 +6,7 @@ SET BRANCH=main
 
 echo.
 echo Spostamento nella cartella del progetto...
-cd /d "%PROJECT_DIR%"
+cd /c "%PROJECT_DIR%"
 
 IF NOT EXIST ".git" (
     echo Inizializzazione repository Git...
